@@ -1,0 +1,30 @@
+.menu-filtros{
+    display: flex;
+    @media (max-width: 991px) {
+        width: 100%;
+        padding: 0px 0px 40px 0px;
+    }
+    width: 20%;
+    color: #272727;
+    padding: 20px 0px 40px 0px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: column;
+}
+.home-shelf__content{
+    width: 80%;
+}
+.trigger{
+    display: flex;
+    width: 100%;
+    font-size: 16px;
+    justify-content: space-between;
+    border: none;
+    padding: 8px;
+    margin-top: 10px;
+}
+.toggle{
+    width: 100%;
+    padding: 8px;
+}

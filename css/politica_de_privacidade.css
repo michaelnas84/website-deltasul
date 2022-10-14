@@ -1,0 +1,68 @@
+.trigger {
+  width: 100%;
+  border: none;
+  text-align: left;
+  padding: 20px 20px 20px 40px;
+  margin-bottom: 20px;
+  display: flex;
+  background-color: none;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.toggle {
+  padding: 0px 20px 20px 20px;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  empty-cells: show;
+}
+
+.P2 {
+  padding: 10px;
+  font-size: 11pt;
+  line-height: 100%;
+  margin-bottom: 0;
+  margin-top: 0;
+  text-align: justify !important;
+  font-family: Arial;
+  -ms-writing-mode: lr-tb;
+      writing-mode: horizontal-tb;
+  direction: ltr;
+}
+
+.Tabela1 {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+  -ms-writing-mode: lr-tb;
+      writing-mode: horizontal-tb;
+  direction: ltr;
+}
+
+.Tabela1_A1 {
+  border-top-width: 0.0176cm;
+  border-top-style: solid;
+  border-top-color: #000;
+  border-left-width: 0.0176cm;
+  border-left-style: solid;
+  border-left-color: #000;
+  border-bottom-width: 0.0176cm;
+  border-bottom-style: solid;
+  border-bottom-color: #000;
+  border-right-width: 0.0176cm;
+  border-right-style: solid;
+  border-right-color: #000;
+  background-color: transparent;
+  padding-left: 0.191cm;
+  padding-right: 0.191cm;
+  padding-top: 0;
+  padding-bottom: 0;
+  -ms-writing-mode: lr-tb;
+      writing-mode: horizontal-tb;
+  direction: ltr;
+}/*# sourceMappingURL=politica_de_privacidade.css.map */

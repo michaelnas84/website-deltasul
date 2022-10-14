@@ -1,0 +1,106 @@
+// Remove Bootstrap prefix
+// for CSS variables on :root.
+// (by default BS insert a bs- prefix)
+$variable-prefix: '';
+
+ // Colors
+ 
+$theme-background-color: white;
+$blog-background-color: #f7f7f7;
+$footer-background-color: #222222;
+$body-color: #222;
+$header-text-color: #9d9897;
+$container-text-color: #161616;
+$p-text-color: #575454;
+$cta-text-color: white;
+$date-color: #b6b6b6;
+$default-border-gray-line: rgba(204,204,204,0.3);
+$default-border-gray: rgba(204,204,204,0.7);
+$default-border-gray-01: rgba(204,204,204,1.0);
+$default-gradient-gold: linear-gradient(45deg, #ee7d00, #c65d0e) 1;
+$default-gold: #e2b115;
+$default-orange: #ee7d00;
+$default-green: #00e2bf;
+$default-dark-blue: #17264d;
+
+
+// Shadows
+
+$default-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+$default-shadow2: 0px 0px 30px 0px rgba(102,102,102,0.3);
+
+// Font sizes
+$font-sizes: (
+  xxl: 40px,
+  xl: 30px,
+  lg: 24px, 
+  md: 20px, 
+  b: 16px, 
+  sm: 14px, 
+  xs: 12px, 
+  xxs: 10px, 
+);
+
+$font-size-base: 1rem;
+$h0-font-size: map-get($font-sizes, xxl);
+$h1-font-size: map-get($font-sizes, xl);
+$h2-font-size: map-get($font-sizes, lg);
+$h3-font-size: map-get($font-sizes, md);
+$h4-font-size: map-get($font-sizes, b);
+$h5-font-size: map-get($font-sizes, sm);
+$h6-font-size: map-get($font-sizes, xs);
+$h7-font-size: map-get($font-sizes, xxs);
+
+$default-font-weight: 100;
+
+ // Transitions
+
+$trs: 0.3s;
+$trs-slow: 0.5s;
+
+ // Grid
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 991px,
+  lg: 992px,
+  xl: 1235px,
+  xxl: 1400px
+);
+
+$grid-columns: 12;
+$grid-gutter-width: 1.5rem;
+$grid-row-columns: 6;
+
+ // Container
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1320px
+);
+
+$margin-top-title: 25px;
+$margin-top-bottom: 25px;
+$margin-top-bottom-min: 10px;
+$margin-bottom-title-container: 20px;
+$margin-bottom-title-blog: 8px;
+$margin-top-bottom-category: 17px;
+$margin-left-right-blog: 10px;
+
+ // Header
+
+$header-height-desktop: 80px;
+$header-height-desktop-1650: 60px;
+$header-height-desktop-1250: 40px;
+$header-height-mobile: 55px;
+
+ // Responsive
+
+$img-responsive-width: 100%;
+$img-logo-menu: 45px;
+$img-logo-menu-med: 30px;
+$img-logo-menu-min: 20px;
