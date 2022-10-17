@@ -4,49 +4,24 @@
       
       include_once('admin/includes/connections.php');
 
-      $content_prods = json_encode(array('produtos' => array($PROD_REF)));
+      // $content_prods = json_encode(array('produtos' => array($PROD_REF)));
       
-      include_once('includes/api_precos.php');
-
-      function item_inativo(){
-         echo('<script language="javascript" type="text/javascript">window.location.href = "./";</script>');
-      }
+      // include_once('includes/api_precos.php');
       
-   //   $sql = "
-   //   SELECT
-   //       REGISTRO                    AS REGISTRO,
-   //       REF                         AS REF,
-   //       DATA_EXIBICAO               AS DATA_EXIBICAO,
-   //       VALOR_DESCONTO              AS VALOR_DESCONTO,
-   //       QUANTIDADE_PARCELAS         AS QUANTIDADE_PARCELAS,
-   //       VALOR_PARCELA               AS VALOR_PARCELA,
-   //       PRIMEIRO_ACESSO             AS PRIMEIRO_ACESSO,
-   //       BLOQUEADO                   AS BLOQUEADO,
-   //       EXCLUIDO                    AS EXCLUIDO,
-   //       USUARIO                     AS USUARIO
-   //   FROM
-   //       PRODUTOS_OFERTA_DIA
-   //   WHERE
-   //      REF = '$PROD_REF'
-   //   AND
-   //      DATA_EXIBICAO = CURDATE()
-   //   AND
-   //      PRIMEIRO_ACESSO = 'N'
-   //   AND 
-   //      BLOQUEADO = 'N'
-   //   AND 
-   //      EXCLUIDO = 'N'
-   //   ";
-   //   // echo '<pre>' . $sql . '</pre>'; exit;
-   //   $result_produtos_oferta_dia = $conn->query($sql);
+      $sql = "
+      SELECT
+         registro
+      FROM
+         web_produto
+      WHERE 
+         referencia = '$PROD_REF'
+      AND 
+         status = 'S'
+      ";
+      // echo '<pre>' . $sql . '</pre>'; exit;    
+      $stmt_produto = $pdo->query($sql);
 
-   //   while($row_produtos_oferta_dia = $result_produtos_oferta_dia->fetch_assoc()) {
-   //      $valor_item_oferta = $row_produtos_oferta_dia['VALOR_DESCONTO'];
-   //      $valor_item_oferta_parcelas = $row_produtos_oferta_dia['QUANTIDADE_PARCELAS'];
-   //      $valor_item_oferta_valor_parcela = $row_produtos_oferta_dia['VALOR_PARCELA'];
-   //      $exibir_contador = 'S';
-   //      $tot_itens_oferta++;
-   //   }
+      if(!$_POST['post'] == 'admin'){ if(!$stmt_produto->fetch()){ header("Location: ./"); die(); } }
 
       $sql = "
       SELECT
@@ -198,7 +173,6 @@
    // echo '<pre>' . $sql . '</pre>'; exit;
    $produtosemelhante = $pdo->query($sql);
 
-   $base = base64_decode($_GET['base']);
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -207,17 +181,14 @@
       <link rel="stylesheet" type="text/css" href="css/item.css<?= '?'.bin2hex(random_bytes(50))?>">
       <link rel="stylesheet" type="text/css" href="css/magiczoomplus.css<?= '?'.bin2hex(random_bytes(50))?>">
       <script src="js/magiczoomplus.js"></script>
+      <script src="admin/js/jquery.redirect.js"></script>
       <title>Produto | Lojas Deltasul</title>
    </head>
    <?php include('includes/sections/section_header.php'); ?>
    <body class="home-header">
       <main class="main" id="main">
          <!-- stars: Breadcrumb -->
-         <?php while($row_produtos = $stmt_produto->fetch()){
-         if($row_produtos['status'] != 'S' && $base != 'admin'){ item_inativo(); exit; }
-         $ref_prod_agregado                        = $row_produtos['referencia_agregado'];
-         $ref_unit                                 = $row_produtos['ref'];
-         $img_base_prod                            = $row_produtos['URL_ARQ_01']; ?>
+         <?php while($row_produtos = $stmt_produto->fetch()){ $img_base_prod = $row_produtos['URL_ARQ_01']; ?>
          <section class="breadcrumb">
             <div class="av-container">
                <div class="av-row">
@@ -602,11 +573,16 @@
                </div>
             </div>
          </section>
+
+         <?php if($_POST['post'] == 'admin'){ ?>
+         <div style="position:fixed; bottom:0px; right: 0px; width: 200px; height: 80px; margin-right: 50px"><button class="shelf-item__btn-buy" style="border: none">Confirmar produto no site</button></div>
+         <?php } ?>
+
       </main>
 
       <script src="js/item.js"></script>
 
-      <input hidden type="text" id="registro_produto" value="<?= $row_produtos['ref'] ?>">
+      <input hidden type="text" id="registro_produto" value="<?= $PROD_REF ?>">
 
       <?php // if($exibir_contador == 'S'){ include('includes/scripts/section_oferta_da_semana.php'); } ?>
       

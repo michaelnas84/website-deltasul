@@ -1163,4 +1163,25 @@
         echo 'success';
     }
 
+    if($acao=="confirma_produto_site"){
+        if(empty($usu_logado)) {
+            echo ("error_user");
+            exit;
+        }
+            $sql = "
+            UPDATE
+                web_produto
+            SET
+                status          = 'S',
+                usuario         = '$usu_logado'
+            WHERE
+                referencia      = '$PROD_COD'
+            ";
+            
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+            
+        echo ("success");
+    }
+
 ?>

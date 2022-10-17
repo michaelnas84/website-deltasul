@@ -167,3 +167,28 @@ function createCookie(name, value, days) {
     document.cookie = escape(name) + "=" +
         escape(value) + expires + "; path=/";
 }
+
+
+$("button").on("click", function(){
+  var confirmado = confirm('Confirma produto no site?');
+  if(confirmado){
+    var ref_item = $('#registro_produto').val()
+    var data = `acao=confirma_produto_site&prod_cod=${ref_item}`;
+    $.ajax({
+        url: 'admin/includes/central_controller.php',
+        type: 'POST',
+        data: data,
+        method: 'POST',
+        dataType: 'html',
+        scriptCharset: "UTF-8",
+        success: function (retorno) {
+            if(retorno == 'success'){
+                alert('Item confirmado com sucesso!')
+                window.location.replace("/admin/dashboard_produtos_no_site.php")
+            } else {
+                alert('Erro ao confirmar produto no site')
+            }
+        }
+    })
+  }
+})

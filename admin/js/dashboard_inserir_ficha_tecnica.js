@@ -92,7 +92,7 @@ function pesq_cod(ref) {
                 document.getElementById('box_itens').style.display = 'contents';
                 document.getElementById('tipo_ficha').style.display = 'flex';
                 document.getElementById('button_box_itens').style.display = 'inline-block';
-                if(nome_marca['status_banco'] == 'N'){
+                if(nome_marca['status_banco'] == 'N') {
                 document.getElementById('adiciona_item_no_site').style.display = 'flex';
                 }
                 // document.getElementById('button_adicionar_box_itens').style.display = 'flex';
@@ -379,14 +379,16 @@ function list_pesquisa_geral(a) {
     })
 }
 
-function adiciona_item_no_site() {
-    var ref_prod = $('#registro').val()
-    window.open(`/item.php?ref=${ref_prod}&base=YWRtaW4=`, '_blank')
-}
-
 jQuery(document.body).on('keypress', function (e) {
     if (e.keyCode === 13) {
         e.preventDefault()
         $("#search_button").trigger("click")
     }
 })
+
+function envia_post() {
+    event.preventDefault()
+    var item = $('#registro').val()
+    var ref = `../item.php?ref=${item}`
+    $.redirect(ref, {'post': 'admin'}, "POST")
+}

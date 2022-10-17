@@ -330,7 +330,6 @@
                   </ul>
                 </div>
               </div>
-              <div id="demo"/>
       <!-- END: Shelf 2 -->
     </main>
     <!-- END - Main -->
