@@ -20,7 +20,7 @@ sup {
 }
 
 .footer-col-pagamento .footer-content__item {
-  width: 16.66667%;
+  width: 25%;
 }
 
 @media (min-width: 991px) {
@@ -71,6 +71,7 @@ sup {
 @media (max-width: 991px) {
   .footer-newsletter__text {
     margin-bottom: 20px;
+    font-size: 16px !important;
   }
 }
 
@@ -182,7 +183,7 @@ sup {
     float: left;
   }
   .footer-newsletter .footer-col {
-    width: 16.66667%;
+    width: 25%;
   }
   .footer-newsletter .av-col-md-6 {
     width: 25%;
@@ -274,7 +275,7 @@ sup {
     float: left;
   }
   .footer-col {
-    width: 16.66667%;
+    width: 25%;
   }
 }
 img {
@@ -324,7 +325,7 @@ footer li {
     float: left;
   }
   .footer-col {
-    width: 16.66667%;
+    width: 25%;
   }
 }
 @-webkit-keyframes rotate {

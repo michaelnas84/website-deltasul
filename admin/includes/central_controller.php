@@ -24,6 +24,10 @@
     $descr                          = $_POST["descr"];
     $url                            = $_POST["url"];
     $contato_cliente                = $_POST["contato_cliente"];
+    $apelido                        = $_POST["apelido"];
+    $ddd_cel                        = $_POST["ddd_cel"];
+    $nro_celular                    = $_POST["nro_celular"];
+    $cod_emp                        = $_POST["cod_emp"];
     $agora                          = date('d/m/Y - H:i:s');
     $agoraref                       = date('dmYHis');
     $agora_dia                      = date('w');
@@ -90,6 +94,233 @@
             echo ($csv);
     }
 
+
+    if($acao=="folheto_cadastro"){
+        if(empty($descr) || empty($data_exibicao) || empty($data_expiracao) || empty($url)){
+            echo ("error_no_data");
+            exit;
+        } 
+        
+            $sql = "
+            INSERT INTO web_folhetooferta(
+                descricao,
+                url,
+                dataexibe,
+                dataexpira,
+                primeiroacesso,
+                bloqueado,
+                status,
+                usuario,
+                data
+                )
+            VALUES (
+                '$descr',
+                '$url',
+                '$data_exibicao',
+                '$data_expiracao',
+                'S',
+                'N',
+                'S',
+                '$usu_logado',
+                NOW()
+            )";
+            
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute();
+                
+                echo "success"; 
+    }
+
+    
+    if($acao == 'folheto_confirmar'){
+        if(empty($usu_logado)) {
+            echo ("error_user");
+            exit;
+        }
+            $sql = "
+            UPDATE
+                web_folhetooferta
+            SET
+                primeiroacesso  = 'N',
+                bloqueado       = 'N',
+                status          = 'S',
+                usuarioalt      = '$usu_logado',
+                dataalt         = NOW()
+            WHERE
+                REGISTRO        = $registro
+            ";
+            
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+            
+        echo ("success");
+    }
+
+    if($acao == 'folheto_excluir'){
+        if(empty($usu_logado)) {
+            echo ("error_user");
+            exit;
+        }
+            $sql = "
+            UPDATE
+                web_folhetooferta
+            SET
+                primeiroacesso  = 'N',
+                bloqueado       = 'S',
+                status          = 'N',
+                usuarioalt      = '$usu_logado',
+                dataalt         = NOW()
+            WHERE
+                REGISTRO        = $registro
+            ";
+            
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+            
+        echo ("success");
+    }
+
+    if($acao == 'folheto_alterar'){
+        if(empty($usu_logado)) {
+            echo ("error_user");
+            exit;
+        }
+            $sql = "
+            UPDATE
+                web_folhetooferta
+            SET
+                descricao       = '$descr',
+                url             = '$url',
+                dataexibe       = '$data_exibicao',
+                dataexpira      = '$data_expiracao',
+                primeiroacesso  = 'S',
+                bloqueado       = 'N',
+                status          = 'S',
+                usuarioalt      = '$usu_logado',
+                dataalt         = NOW()
+            WHERE
+                REGISTRO        = $registro
+            ";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+      
+        echo ("success");
+    }
+
+    if($acao=="colaboradores_cadastro"){
+        if(empty($descr) || empty($data_exibicao) || empty($data_expiracao) || empty($url)){
+            echo ("error_no_data");
+            exit;
+        } 
+        
+            $sql = "
+            INSERT INTO in_sistema_colaboradoresativos(
+                descricao,
+                url,
+                dataexibe,
+                dataexpira,
+                primeiroacesso,
+                bloqueado,
+                status,
+                usuario,
+                data
+                )
+            VALUES (
+                '$descr',
+                '$url',
+                '$data_exibicao',
+                '$data_expiracao',
+                'S',
+                'N',
+                'S',
+                '$usu_logado',
+                NOW()
+            )";
+            
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute();
+                
+                echo "success"; 
+    }
+    
+    
+    if($acao == 'colaboradores_confirmar'){
+        if(empty($usu_logado)) {
+            echo ("error_user");
+            exit;
+        }
+            $sql = "
+            UPDATE
+                in_sistema_colaboradoresativos
+            SET
+                primeiroacesso  = 'N',
+                bloqueado       = 'N',
+                status          = 'S',
+                usuarioalt      = '$usu_logado',
+                dataalt         = NOW()
+            WHERE
+                REGISTRO        = $registro
+            ";
+            
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+            
+        echo ("success");
+    }
+    
+    if($acao == 'colaboradores_excluir'){
+        if(empty($usu_logado)) {
+            echo ("error_user");
+            exit;
+        }
+            $sql = "
+            UPDATE
+                in_sistema_colaboradoresativos
+            SET
+                primeiroacesso  = 'N',
+                bloqueado       = 'S',
+                status          = 'N',
+                usuarioalt      = '$usu_logado',
+                dataalt         = NOW()
+            WHERE
+                REGISTRO        = $registro
+            ";
+            
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+            
+        echo ("success");
+    }
+    
+    if($acao == 'colaboradores_alterar'){
+        if(empty($usu_logado) || empty($apelido) || empty($ddd_cel) || empty($nro_celular) || empty($cod_emp)) {
+            echo ("error_user");
+            exit;
+        }
+            $sql = "
+            UPDATE
+                in_sistema_colaboradoresativos
+            SET
+                apelido         = '$apelido',
+                ddd_cel         = '$ddd_cel',
+                nro_celular     = '$nro_celular',
+                cod_emp         = '$cod_emp',
+
+                primeiroacesso  = 'S',
+                bloqueado       = 'N',
+                status          = 'N',
+                usuarioalt      = '$usu_logado',
+                dataalt         = NOW()
+            WHERE
+                REGISTRO        = $registro
+            ";
+    
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+      
+        echo ("success");
+    }
 
     if($acao=="slider_cadastro"){
         $file = $_FILES["arquivo"]; 
@@ -187,7 +418,7 @@
             SET
                 primeiroacesso  = 'N',
                 bloqueado       = 'S',
-                status          = 'S',
+                status          = 'N',
                 usuarioalt      = '$usu_logado',
                 dataalt         = NOW()
             WHERE
@@ -598,7 +829,6 @@
                 cidade,
                 estado,
                 pais,
-                placename,
                 pagina,
                 data,
                 hora,
@@ -611,7 +841,6 @@
                 '$cidade',
                 '$estado',
                 '$pais',
-                '$place_name',
                 '$pagina',
                 current_date(),
                 current_time(),
@@ -697,8 +926,9 @@
             }
 
             echo(json_encode($array));
-            
-        } else {
+            exit;
+        }
+        
             $sql = "
             SELECT 
                 A.registro                          AS REGISTRO,
@@ -731,8 +961,6 @@
                 $xx++;
             }
             echo(json_encode($array));
-        }
-      
     }
 
     if($acao=="cadastro_item_ficha_categoria_sub"){
@@ -836,7 +1064,8 @@
 
             $sql = "
             SELECT
-                A.id_permissao            AS ID_PERMISSAO
+                A.id_permissao            AS ID_PERMISSAO,
+                A.admin					  AS ADMIN
             FROM
                 in_sistema_acesso A,
                 in_sistema_perfil B
@@ -849,7 +1078,38 @@
             $stmt = $pdo->query($sql);
             $xx=0;
             while($row_permissoes = $stmt->fetch()){
-                $array[$xx] 			                                = $row_permissoes['ID_PERMISSAO'];
+                $array['ACESSOS'][$xx] 			                            = $row_permissoes['ID_PERMISSAO'];
+                $array['ADMIN'][0] 			                                = $row_permissoes['ADMIN'];
+                $xx++;
+            }
+
+            echo(json_encode($array));
+
+    }
+
+    if($acao=="cadastro_itens_ficha_view"){
+        if(empty($usu_logado)) {
+            echo ("error_user");
+            exit;
+        }
+            $item_cat_name               = explode(" - ", $_POST["item_cat_name"]);
+            $item_cat_name               = $item_cat_name[1];       
+
+            $sql = "
+            SELECT
+                itemfichatecnica            AS ID_ITEM
+            FROM
+                web_subcategoriaitemfichatecnica
+            WHERE
+                subcategoria = '$item_cat_name'
+            AND 
+                status = 'S'
+            ";
+            // echo "<pre>" . $sql . "</pre>";exit;
+            $stmt = $pdo->query($sql);
+            $xx=0;
+            while($row_permissoes = $stmt->fetch()){
+                $array[$xx] 			                            = $row_permissoes['ID_ITEM'];
                 $xx++;
             }
 

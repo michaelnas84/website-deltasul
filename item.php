@@ -322,12 +322,12 @@
                                  <div id="ctl00_Conteudo_upnlContent">
                                     <div class="content">
                                        <fieldset>
-                                                <form class="form" style="display: flex;align-items: center;">
-                                                         <input class="fitext freight-zip-box" name="cep" type="text" id="cep" value="" size="10" maxlength="9" placeholder="Digite seu CEP aqui"
-                                                         onblur="pesquisacep(this.value)" />
-                                                         <input class="fitext freight-zip-box" name="cidade" type="text" id="cidade" value="" style="display: none"/>
-                                                         <input type="button" class="bt freight-btn" title="OK" id="btnFreteSimulacao" value="OK" name="btnFreteSimulacao">
-                                                </form>
+                                          <form class="form" style="display: flex;align-items: center;">
+                                             <input class="fitext freight-zip-box" name="cep" type="text" id="cep" value="" size="10" maxlength="9" placeholder="Digite seu CEP aqui"
+                                             onblur="pesquisacep(this.value)" />
+                                             <input class="fitext freight-zip-box" name="cidade" type="text" id="cidade" value="" style="display: none"/>
+                                             <input type="button" class="bt freight-btn" title="OK" id="btnFreteSimulacao" value="OK" name="btnFreteSimulacao">
+                                          </form>
                                           </span>
                                           <span class="cep-busca">
                                              <a title="Não sei meu CEP" class="bt lnkExterno" target="_blank" href="http://www.buscacep.correios.com.br/sistemas/buscacep/">Não sei meu CEP</a>
@@ -531,9 +531,9 @@
                                                             <div class="shelf-item__img">
                                                                <a class="shelf-item__img-link">
                                                                   <div class="shelf-item__image js--lazyload has--lazyload" data-noscript="">
-                                                                     <img src="img_base/produtos/<?= preg_replace('/[^0-9]/', '', $row_produtos_rodape['REF']) ?>/<?= $row_produtos_rodape['URL_ARQ_01'] ?>" width="204" height="204"/>
+                                                                     <img src="img_base/produtos/<?= preg_replace('/[^0-9]/', '', $row_produtos_rodape['REF']) ?>/<?= $row_produtos_rodape['URL_ARQ_01'] ?>" style="max-height: 204px"/>
                                                                   </div>
-                                                                  <figure class="shelf-item__image__second"><a href="item.php?ref=<?= $row_produtos_rodape['REF'] ?>"><img src="img_base/produtos/<?= preg_replace('/[^0-9]/', '', $row_produtos_rodape['REF']) ?>/<?= $row_produtos_rodape['URL_ARQ_02'] ?>" width="204" height="204"></a></figure>
+                                                                  <figure class="shelf-item__image__second"><a href="item.php?ref=<?= $row_produtos_rodape['REF'] ?>"><img src="img_base/produtos/<?= preg_replace('/[^0-9]/', '', $row_produtos_rodape['REF']) ?>/<?= $row_produtos_rodape['URL_ARQ_02'] ?>" style="max-height: 204px"></a></figure>
                                                                </a>
                                                             </div>
                                                             <div class="shelf-item__info">
@@ -575,7 +575,10 @@
          </section>
 
          <?php if($_POST['post'] == 'admin'){ ?>
-         <div style="position:fixed; bottom:0px; right: 0px; width: 200px; height: 80px; margin-right: 50px"><button class="shelf-item__btn-buy" style="border: none">Confirmar produto no site</button></div>
+         <div style="position:fixed; bottom:0px; right: 0px; width: 360px; height: 100px; margin-right: 50px; display: flex; justify-content: space-between; align-items: center;">
+            <button id="button_adiciona_item_site" class="shelf-item__btn-buy" style="border: none">Confirmar produto no site</button>
+            <button id="button_voltar" class="shelf-item__btn-buy" style="border: none; background-color: #17264d; margin-left: 10px">Voltar</button>
+         </div>
          <?php } ?>
 
       </main>

@@ -7,7 +7,6 @@
 
     $sql = "
     SELECT 
-      descricao           as descricao,
       cidade              as cidade,
       cep                 as cep,
       endereco            as endereco,
@@ -15,7 +14,6 @@
       telefone            as telefone,
       ddd                 as ddd,
       logra               as logra,
-      razao               as razao,
       bairro              as bairro
     FROM 
       web_cidade

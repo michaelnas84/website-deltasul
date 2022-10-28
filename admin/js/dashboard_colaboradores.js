@@ -10,9 +10,45 @@ function exibe_notificacao(svg, txt_1, txt_2){
     $("#notification_txt_2").html(txt_2)
 }
 
+function envia_form() {
+    $.ajax({
+        url: 'includes/central_controller.php',
+        type: 'POST',
+        data: $("#form_cad").serialize(),
+
+        method: 'POST',
+
+        dataType: 'html',
+        scriptCharset: "UTF-8",
+
+        success: function (retorno) {
+            if (retorno == 'error_user') {
+                exibe_notificacao('red', 'Ocorreu um problema! (login_error)', 'Entre em contato com o suporte')
+                setTimeout(() => window.location.reload(), 2000)
+            }
+            if (retorno == 'success') {
+                exibe_notificacao('green', 'Colaborador cadastrado com sucesso!', 'A página será recarregada')
+                setTimeout(() => window.location.reload(), 2000)
+            }
+        }
+    })
+}
+
+
+function exibe_modal_altera(reg, nome, apelido, ddd_cel, nro_celular, cod_emp) {
+    $('#registro').val(reg)
+    $('#nome').val(nome)
+    $('#apelido').val(apelido)
+    $('#ddd_cel').val(ddd_cel)
+    $('#nro_celular').val(nro_celular)
+    $("#cod_emp").val(cod_emp).change()
+    
+    $('#acao').val('colaboradores_alterar')
+}
+
 function excluir(reg) {
     $.ajax({
-        data: { registro: reg, acao: 'avaliacoes_clientes_excluir' },
+        data: { registro: reg, acao: 'colaboradores_excluir' },
         type: "POST",
         url: 'includes/central_controller.php',
         method: 'POST',
@@ -21,7 +57,7 @@ function excluir(reg) {
                 exibe_notificacao('red', 'Ocorreu um problema! (login_error)', 'Entre em contato com o suporte')
                 setTimeout(() => window.location.reload(), 2000)
             } else if (retorno == 'success') {
-                exibe_notificacao('red', 'Avaliação excluída com sucesso!', 'A página será recarregada')
+                exibe_notificacao('red', 'Colaborador excluído com sucesso!', 'A página será recarregada')
                 setTimeout(() => window.location.reload(), 2000)
             }
         }
@@ -31,7 +67,7 @@ function excluir(reg) {
 
 function confirmar(reg) {
     $.ajax({
-        data: `acao=avaliacoes_clientes_confirmar&registro=${reg}`,
+        data: { registro: reg, acao: 'colaboradores_confirmar' },
         type: "POST",
         url: 'includes/central_controller.php',
         method: 'POST',
@@ -40,23 +76,13 @@ function confirmar(reg) {
                 exibe_notificacao('red', 'Ocorreu um problema! (login_error)', 'Entre em contato com o suporte')
                 setTimeout(() => window.location.reload(), 2000)
             } else if (retorno == 'success') {
-                exibe_notificacao('green', 'Avaliação confirmada com sucesso!', 'A página será recarregada')
+                exibe_notificacao('green', 'Colaborador confirmado com sucesso!', 'A página será recarregada')
                 setTimeout(() => window.location.reload(), 2000)
             }
         }
     })
 }
 
-function exportar_csv() {
-    $.ajax({
-        data: { acao: 'avaliacoes_clientes_exportar_csv' },
-        type: "POST",
-        url: 'includes/central_controller.php',
-        method: 'POST',
-        success: function (retorno) {
-            exibe_notificacao('green', 'Arquivo exportado com sucesso!')
-            var retorno_url = retorno.split("html")
-            window.location.replace(retorno_url[1])
-        }
-    })
-}
+$('#select_cidades').on('change', function () {
+    window.location.href = `?loja=${this.value}`;
+})

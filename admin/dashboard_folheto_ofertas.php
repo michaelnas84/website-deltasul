@@ -22,7 +22,7 @@
       SELECT
         count(REGISTRO)                 as totrows
       FROM
-        web_slideshow
+        web_folhetooferta
     ";
       if($filter == 'ativos'){
       $sql_totrows .= "
@@ -56,7 +56,6 @@
       SELECT
           registro                      AS REGISTRO,
           descricao                     AS DESCR,
-          urlarq                        AS URL_ARQ,
           url                           AS URL,
           dataexibe                     AS DATA_EXIBICAO,
           dataexpira                    AS DATA_EXPIRACAO,
@@ -65,7 +64,7 @@
           status                        AS STATUS,
           usuario                       AS USUARIO
       FROM
-          web_slideshow
+          web_folhetooferta
       "; 
       if($filter == 'ativos'){
       $sql .= "
@@ -101,7 +100,7 @@
       ";
       // echo '<pre>' . $sql . '</pre>'; exit;
       $stmt = $pdo->query($sql);
-      $tot_slider = 0;
+      $tot_folheto_ofertas = 0;
 
       $hoje = date('Y-m-d');    
 ?>
@@ -114,7 +113,7 @@
       <link rel="icon" type="image/x-icon" href="img/ICON_Deltasul_laranja.ico">
       <script src="js/jquery-3.1.0.js"></script>
       <script src="js/flowbite.js"></script>
-      <title>Banners | Lojas Deltasul</title>
+      <title>Dashboard Folheto Ofertas | Lojas Deltasul</title>
       <link rel="stylesheet" type="text/css" href="css/styles.css<?= '?'.bin2hex(random_bytes(50))?>">
     </head>
     <body class="flex background-white dark:bg-gray-800">
@@ -123,10 +122,10 @@
 
     <div class="w-full ml-auto flex flex-wrap mt-14 xl:mt-0 xl:w-10/12 xl:min-h-screen content-start">
 
-    <?php $header_page_1 = 'Slider';
-          $header_page_1_url = 'dashboard_slider.php';
-          $header_page_name = 'Dashboard Slider';
-          $header_page_buttons = '<a href="dashboard_slider_cadastro.php" class="bg-transparent transition-all hover:bg-green-700 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-700 hover:border-transparent rounded m-1">Criar</a>
+    <?php $header_page_1 = 'Folheto Ofertas';
+          $header_page_1_url = 'dashboard_folheto.php';
+          $header_page_name = 'Dashboard Folheto Ofertas';
+          $header_page_buttons = '<a data-modal-toggle="defaultModal" class="pointer bg-transparent transition-all hover:bg-green-700 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-700 hover:border-transparent rounded m-1">Criar</a>
           <a class="bg-transparent transition-all hover:bg-green-700 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-700 hover:border-transparent rounded m-1" href="?filter=todos">Todos</a>
           <a class="bg-transparent transition-all hover:bg-green-700 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-700 hover:border-transparent rounded m-1" href="?filter=ativos">Ativos</a>
           <a class="bg-transparent transition-all hover:bg-red-700 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-700 hover:border-transparent rounded m-1" href="?filter=excluidos_vencidos">Vencidos</a>
@@ -138,25 +137,25 @@
     <div class="w-full p-4 flex flex-wrap">
     <div class="w-full overflow-hidden bg-white shadow sm:rounded-md">
       <ul role="list" class="divide-y divide-gray-200">
-      <?php foreach ($stmt as $row_slider){
+      <?php foreach ($stmt as $row_folheto_ofertas){
                   $css_yellow = "bg-yellow-100 text-yellow-800";
                   $css_red    = "bg-red-100 text-red-800";
                   $css_green  = "bg-green-100 text-green-800";
-                  if ($row_slider['PRIMEIRO_ACESSO'] == 'S' && $row_slider['DATA_EXPIRACAO'] >= $hoje) {
+                  if ($row_folheto_ofertas['PRIMEIRO_ACESSO'] == 'S' && $row_folheto_ofertas['DATA_EXPIRACAO'] >= $hoje) {
                     $css_aviso  = $css_yellow;
                     $text_aviso = "Necessita atenção";
-                  } else if ($row_slider['PRIMEIRO_ACESSO'] == 'S' && $row_slider['DATA_EXPIRACAO'] <= $hoje) { 
+                  } else if ($row_folheto_ofertas['PRIMEIRO_ACESSO'] == 'S' && $row_folheto_ofertas['DATA_EXPIRACAO'] <= $hoje) { 
                     $text_aviso =  "Vencido";
-                  } else if ($row_slider['BLOQUEADO'] == 'S' && $row_slider['STATUS'] == 'N' && $row_slider['PRIMEIRO_ACESSO'] == 'N') { 
+                  } else if ($row_folheto_ofertas['BLOQUEADO'] == 'S' && $row_folheto_ofertas['STATUS'] == 'N' && $row_folheto_ofertas['PRIMEIRO_ACESSO'] == 'N') { 
                     $css_aviso  =  $css_red;
                     $text_aviso =  "Excluido/Vencido";
-                  } else if ($row_slider['BLOQUEADO'] == 'N' && $row_slider['DATA_EXPIRACAO'] >= $hoje) { 
+                  } else if ($row_folheto_ofertas['BLOQUEADO'] == 'N' && $row_folheto_ofertas['DATA_EXPIRACAO'] >= $hoje) { 
                     $css_aviso  =  $css_green;
                     $text_aviso =  "Ativo";
-                  } else if ($row_slider['BLOQUEADO'] == 'N' && $row_slider['DATA_EXPIRACAO'] <= $hoje) { 
+                  } else if ($row_folheto_ofertas['BLOQUEADO'] == 'N' && $row_folheto_ofertas['DATA_EXPIRACAO'] <= $hoje) { 
                     $css_aviso  =  $css_red;
                     $text_aviso =  "Vencido";
-                  } else if ($row_slider['STATUS'] == 'S') { 
+                  } else if ($row_folheto_ofertas['STATUS'] == 'S') { 
                     $css_aviso  =  $css_red;
                     $text_aviso =  "Excluido";
                   } else { 
@@ -164,15 +163,15 @@
                     $text_aviso =  "FORA DO PADRÃO, EXCLUIR";
           } ?>
         <li>
-          <a <?php if($text_aviso != 'Excluido'){ ?>href="dashboard_slider_altera.php?ref=<?= $row_slider['REGISTRO'] ?>"<?php } ?> class="block hover:bg-gray-50">
+          <a class="block hover:bg-gray-50">
             <div class="px-4 py-4 sm:px-6">
               <div class="flex items-center justify-between">
-                <p class="xl:truncate text-sm font-medium text-blue-600 hover:text-blue-800 transition-all"><?= $row_slider['DESCR'] ?></p>
+                <p class="xl:truncate text-sm font-medium text-blue-600 hover:text-blue-800 transition-all"><?= $row_folheto_ofertas['DESCR'] ?></p>
                 <div class="ml-2 flex flex-shrink-0">
                   <?php if($text_aviso != 'Excluido/Vencido'){ ?>
-                  <a onClick="confirmar(<?=$row_slider['REGISTRO']?>)" class="cursor-pointer inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">Confirmar</a>
-                  <a href="dashboard_slider_altera.php?ref=<?= $row_slider['REGISTRO'] ?>" class="mx-2 inline-flex rounded-full bg-yellow-100 px-2 text-xs font-semibold leading-5 text-yellow-800">Editar</a>
-                  <a onClick="excluir(<?=$row_slider['REGISTRO']?>)" class="cursor-pointer inline-flex rounded-full bg-red-100 px-2 text-xs font-semibold leading-5 text-red-800">Excluir</a>
+                  <a onClick="confirmar(<?=$row_folheto_ofertas['REGISTRO']?>)" class="cursor-pointer inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">Confirmar</a>
+                  <a data-modal-toggle="defaultModal" OnClick="exibe_modal_altera('<?=$row_folheto_ofertas['REGISTRO']?>', '<?= $row_folheto_ofertas['DESCR'] ?>', '<?= $row_folheto_ofertas['URL'] ?>', '<?= $row_folheto_ofertas['DATA_EXIBICAO'] ?>', '<?= $row_folheto_ofertas['DATA_EXPIRACAO'] ?>')" class="mx-2 inline-flex rounded-full bg-yellow-100 px-2 text-xs font-semibold leading-5 text-yellow-800">Editar</a>
+                  <a onClick="excluir(<?=$row_folheto_ofertas['REGISTRO']?>)" class="cursor-pointer inline-flex rounded-full bg-red-100 px-2 text-xs font-semibold leading-5 text-red-800">Excluir</a>
                   <?php } else { ?>
                     <a>&nbsp;</a>
                   <?php } ?>
@@ -180,23 +179,12 @@
               </div>
               <div class="mt-2 sm:flex sm:justify-between">
                 <div class="flex flex-wrap">
-                  <p class="flex items-center text-sm text-gray-500">
-                    <!-- Heroicon name: mini/users -->
-                    <svg class="w-5 h-5 mr-1.5 text-gray-400 hidden xl:flex" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                    <?php if($row_slider['URL_ARQ'] != null) { ?>
-                    <img type="button" data-modal-toggle="defaultModal" onClick="exibe_modal(this)" src="../img_base/slider/<?= $row_slider['URL_ARQ'] ?>" id="<?= $row_slider['DESCR'] ?>" class="cursor-pointer w-full xl:w-32"/>
-                    <?php } else { ?>
-                    <a target="_blank">Imagem excluída automaticamente</a>
-                    <?php } ?>
-                  </p>
-                  <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
+                  <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
                     <!-- Heroicon name: mini/map-pin -->
                     <svg class="w-5 h-5 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
-                    <?php if($row_slider['URL'] != null){ ?>
-                      <a target="_blank" href="<?= $row_slider['URL'] ?>"><?= $row_slider['URL'] ?></a>
-                    <?php } else { ?>
-                      <a>Sem URL vinculada</a>
-                    <?php } ?>
+                    <?php if($row_folheto_ofertas['URL'] != null){ ?>
+                      <a target="_blank" href="<?= $row_folheto_ofertas['URL'] ?>"><?= $row_folheto_ofertas['URL'] ?></a>
+                    <?php }?>
                   </p>
                   <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 ml-2 sm:ml-6">
                     <a class='inline-flex rounded-full px-2 text-xs font-semibold leading-5 <?= $css_aviso ?>' style='cursor: default '><?= $text_aviso ?></a>
@@ -208,7 +196,7 @@
                     <path fill-rule="evenodd" d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z" clip-rule="evenodd" />
                   </svg>
                   <p>
-                    <time><?= date('d/m/Y', strtotime($row_slider['DATA_EXIBICAO'])) ?> à <?= date('d/m/Y', strtotime($row_slider['DATA_EXPIRACAO'])) ?></time>
+                    <time><?= date('d/m/Y', strtotime($row_folheto_ofertas['DATA_EXIBICAO'])) ?> à <?= date('d/m/Y', strtotime($row_folheto_ofertas['DATA_EXPIRACAO'])) ?></time>
                   </p>
                 </div>
               </div>
@@ -262,7 +250,7 @@
                 <!-- Modal header -->
                 <div class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
                     <h3 id="title-modal" class="text-xl font-semibold text-gray-900 dark:text-white">
-                      
+                      Cadastrar Folheto de Ofertas
                     </h3>
                     <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal">
                         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
@@ -271,17 +259,55 @@
                 </div>
                 <!-- Modal body -->
                 <div class="p-6 space-y-6">
-                  <img id="img-modal" src="" class="w-full"/>
+                    <form id="form_cad">
+                      <div class="space-y-6 sm:space-y-5">
+                        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4">
+                          <label for="about" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Descrição</label>
+                          <div class="mt-1 sm:col-span-2 sm:mt-0">
+                            <div class="flex max-w-lg rounded-md shadow-sm">
+                              <input type="text" name="descr" id="descr" class="block w-full min-w-0 flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-4">
+                          <label for="about" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">URL</label>
+                          <div class="mt-1 sm:col-span-2 sm:mt-0">
+                            <div class="flex max-w-lg rounded-md shadow-sm">
+                              <input type="text" name="url" id="url" class="block w-full min-w-0 flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-4">
+                          <label for="about" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Data de exibição</label>
+                          <div class="mt-1 sm:col-span-2 sm:mt-0">
+                            <div class="flex max-w-lg rounded-md shadow-sm">
+                              <input type="date" name="data_exibicao" id="data_exibicao" class="block w-full min-w-0 flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-4">
+                          <label for="about" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Data de expiração</label>
+                          <div class="mt-1 sm:col-span-2 sm:mt-0">
+                            <div class="flex max-w-lg rounded-md shadow-sm">
+                              <input type="date" name="data_expiracao" id="data_expiracao" class="block w-full min-w-0 flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <input name="registro" id="registro" hidden>
+                      <input name="acao" id="acao" value="folheto_cadastro" hidden>
+                    </form>
                 </div>
                 <!-- Modal footer -->
                 <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
                     <button data-modal-toggle="defaultModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Fechar</button>
+                    <input type="button" value="Salvar" onClick="envia_form()" class="cursor-pointer ml-3 inline-flex justify-center rounded-md border border-transparent bg-green-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="bg-gray-100 absolute" style="min-height: 320px">
+    <div class="bg-gray-100 absolute z-50" style="min-height: 320px">
       <div x-data="{ show: false }" aria-live="assertive" class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6">
           <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
             <!-- Notification panel, dynamically insert this into the live region when it needs to be displayed -->
@@ -310,7 +336,7 @@
     </div>
   </body>
   
-  <script src="js/dashboard_slider.js"></script>
+  <script src="js/dashboard_folheto_ofertas.js"></script>
 
 <?php } else { 
     $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);

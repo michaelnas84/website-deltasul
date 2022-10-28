@@ -36,6 +36,14 @@
     <div class="min-w-0 flex-1">
       <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight"><?= $header_page_name ?></h2>
     </div>
+    <?php if($header_page_select_itens != null){ ?>
+      <div class="mt-4 flex flex-shrink-0 md:mt-0 md:ml-4 flex-wrap">
+          <select id="<?= $header_page_select_id ?>" name="<?= $header_page_select_name ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <option selected disabled><?= $header_page_select_placeholder ?></option>
+            <?php foreach ($header_page_select_itens as $chave => $valor){ echo "<option value={$chave}>{$valor}</option>"; } ?>
+          </select>
+      </div>
+    <?php } ?>
     <?php if($header_page_buttons != null){ ?>
     <div class="mt-4 flex flex-shrink-0 md:mt-0 md:ml-4 flex-wrap">
         <?= $header_page_buttons ?>

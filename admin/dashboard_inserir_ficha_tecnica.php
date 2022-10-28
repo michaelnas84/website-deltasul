@@ -26,7 +26,7 @@
 <?php $header_page_1 = 'Inserir Ficha Técnica';
       $header_page_1_url = 'dashboard_inserir_ficha_tecnica.php';
       $header_page_name = 'Dashboard Inserir Ficha Técnica';
-      $header_page_buttons = '<div id="tipo_ficha" class="w-full justify-end" style="display:none"><!-- <div class="flex" style="justify-content:right;display:none" id="button_adicionar_box_itens"><input type="text" list="result_busca" id="txtBusca" onkeyup="list_pesquisa()" class="py-2 px-4 inline-flex w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 rounded-md" placeholder="Adicionar item na ficha" autocomplete="off"><datalist id="result_busca" autocomplete="off"></datalist></div> --><div class="flex"><button style="display: none" id="adiciona_item_no_site" onClick="envia_post()" class="bg-transparent transition-all hover:bg-green-700 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-700 hover:border-transparent rounded mx-1">Confirmar produto no site</button><button onclick="exibe_secao(`box_itens`)" class="bg-transparent transition-all hover:bg-green-700 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-700 hover:border-transparent rounded mx-1">Cadastrar ficha</button><button onclick="exibe_secao(`box_itens_fotos`)" class="bg-transparent transition-all hover:bg-green-700 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-700 hover:border-transparent rounded mx-1" id="button_cadastrar_fotos">Cadastrar fotos</button></div></div>';
+      $header_page_buttons = '<div id="tipo_ficha" class="w-full justify-end" style="display:none"><!-- <div class="flex" style="justify-content:right;display:none" id="button_adicionar_box_itens"><input type="text" list="result_busca" id="txtBusca" onkeyup="list_pesquisa()" class="py-2 px-4 inline-flex w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 rounded-md" placeholder="Adicionar item na ficha" autocomplete="off"><datalist id="result_busca" autocomplete="off"></datalist></div> --><div class="flex"><button style="display: none" id="adiciona_item_no_site" onClick="envia_post()" class="bg-transparent transition-all hover:bg-green-700 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-700 hover:border-transparent rounded mx-1">Confirmar produto no site</button><button onclick="exibe_secao(`box_itens`)" class="bg-transparent transition-all hover:bg-green-700 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-700 hover:border-transparent rounded mx-1">Cadastrar ficha</button><button onclick="exibe_secao(`box_itens_fotos`)" class="bg-transparent transition-all hover:bg-green-700 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-700 hover:border-transparent rounded mx-1" id="button_cadastrar_fotos" style="display: none">Cadastrar fotos</button></div></div>';
       include('includes/header_page.php');
     ?>
 
@@ -61,7 +61,7 @@
                </div>
             </div>
             <div id="box_itens_fotos" style="display: none">
-               <form name="form" id="form" class="form sm:col-span-8" style="display: contents" method="post" enctype="multipart/form-data"></form>
+               <form name="form" id="form_itens_fotos" class="form sm:col-span-8" style="display: contents" method="post" enctype="multipart/form-data"></form>
             </div>
             <div id="box_itens" style="display: none"></div>
          </div>

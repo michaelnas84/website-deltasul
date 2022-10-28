@@ -9,12 +9,18 @@
 
       include_once('includes/connections.php');
 
+      $perfil_usuario = trim($_SESSION['tipo_perfil']);
+
       $sql = "
         SELECT
           registro        AS REGISTRO, 
           descricao       AS DESCRICAO
         FROM
           in_sistema_perfil
+        WHERE 
+          descricao <> '$perfil_usuario'
+        AND 
+          status = 'S'
       ";
       // echo '<pre>' . $sql . '</pre>'; exit;
       $result_perfis = $pdo->query($sql);
@@ -27,7 +33,7 @@
           in_sistema_perm
         ";
       // echo '<pre>' . $sql . '</pre>'; exit;
-      $result_permissoes = $pdo->query($sql);
+      $result_permissoes = $pdo->query($sql); 
 
 ?>
 <!DOCTYPE html>
@@ -131,7 +137,7 @@
                               <fieldset class="mt-4">
                                 <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
                                   <div class="flex items-center">
-                                    <input name="admin_permissao" value="N" type="radio" checked class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500">
+                                    <input name="admin_permissao" value="N" type="radio" class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500">
                                     <label class="ml-3 block text-sm font-medium text-gray-700"> Não </label>
                                   </div>
 

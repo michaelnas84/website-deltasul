@@ -32,7 +32,7 @@
         FROM
             web_itemfichatecnica
         WHERE
-            registro > 11
+            status = 'S'
         ";
       // echo '<pre>' . $sql . '</pre>'; exit;
       $result_ficha_itens = $pdo->query($sql);
@@ -79,50 +79,6 @@
                               <?php } ?>
                             </datalist>
                             <input type="hidden" name="item_ficha_name" id="item_ficha_id_hidden">
-                            <script>
-                              document.querySelector('#item_ficha_id').addEventListener('input', function(e) {
-                                  var input = e.target,	
-                                      list = input.getAttribute('list'),
-                                      options = document.querySelectorAll('#' + list + ' option[value="'+input.value+'"]'),
-                                      hiddenInput = document.getElementById(input.getAttribute('id') + '_hidden');
-                              
-                                  if (options.length > 0) {
-                                      hiddenInput.value = input.value;
-                                    input.value = options[0].innerText;
-                                    }
-                              
-                              });
-                                  
-                              $(document).on('input', '#item_ficha_id', function() {
-                                  $('#ck_item_ficha_name').prop("checked", false);
-
-                              });
-                                  
-                                  keepDatalistOptions('#item_ficha_id');
-                              
-                                  function keepDatalistOptions(selector='') {
-                                    // select all input fields by datalist attribute or by class/id
-                                    selector = !selector ? "input[list]" : selector;
-                                    let datalistInputs = document.querySelectorAll(selector);
-                                    //if (datalistInputs.length) {
-                                      for (let i = 0; i < datalistInputs.length; i++) {
-                                        let input = datalistInputs[i];
-                                        input.addEventListener("change", function (e) {
-                                          e.target.setAttribute("value", e.target.value);
-                                        });
-                                        input.addEventListener("focus", function (e) {
-                                          e.target.setAttribute("value", e.target.value);
-                                          e.target.value = "";
-                                        });
-                                        input("blur", function (e) {
-                                          e.target.value = e.target.getAttribute("value");
-                                        });
-                              
-                                      }
-                                    //}
-                                  }
-                            </script>
-
                         </div>
                     </div>
                   </div>

@@ -123,6 +123,8 @@
          COUNT(cidade)                             AS CIDADE_QTD
       FROM
          web_localacesso
+      WHERE 
+         pagina = 'index.php'
       GROUP BY 
          cidade
       ORDER BY 

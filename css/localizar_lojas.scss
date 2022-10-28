@@ -15,7 +15,6 @@
 	display: flex;
 	flex-wrap: wrap;
 	background-color: #17264d;
-	padding: 20px;
 	margin: 10px 0px;
 }
 
@@ -26,4 +25,34 @@
 	background-color: #17264d;
 	padding: 20px;
 	margin: 10px 0px;
+}
+
+.card{
+	width: 100%;
+}
+
+.w-full{
+	width: 100% !important;
+}
+
+.loja_cidade{
+	cursor: pointer;
+	transition: 0.3s;
+	fill:#17264d;
+	stroke:#0d0d0d;
+	stroke-width:76.6849823;
+	stroke-linecap:round;
+	stroke-linejoin:round;
+}
+
+.loja_cidade_n{
+	fill:rgba(255,255,255, 0.0);
+	stroke:#0d0d0d;
+	stroke-width:76.6849823;
+	stroke-linecap:round;
+	stroke-linejoin:round;
+}
+
+.hover_map{
+	fill: #090e1c
 }

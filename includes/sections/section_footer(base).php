@@ -68,12 +68,37 @@
             </div>
             <div class="footer-col footer-col-pagamento">
               <div class="footer-content__wrap">
+                <h4 class="footer-content__title">Formas de pagamento</h4>
+                <ul class="footer-content__list footer-content__list--gateways">
+                <div class="cards-payment">
+                    <span class="icon-cartao-visa" title="Visa"></span>
+                    <span class="icon-cartao-mastercard" title="Master card"></span>
+                    <span class="icon-cartao-american-express" title="American Express"></span>
+                    <span class="icon-cartao-dinners" title="Dinners Club"></span>
+                    <span class="icon-cartao-elo" title="Elo"></span>
+                    <span class="icon-cartao-hiper" title="Hiper"></span>
+                    <span class="icon-boleto-bancario" title="Boleto Bancário"></span>
+                    <span class="icon-pix" title="Pix"></span>
+                    <span class="icon-cartao-hipercard" title="Hipercard"></span>
+                </div>
+                </ul>
+              </div>
+            </div>
+            <div class="footer-col footer-col-pagamento">
+              <div class="footer-content__wrap">
                 <h4 class="footer-content__title">Redes Sociais</h4>
                 <ul class="footer-content__list footer-content__list--gateways">
                 <div class="cards-payment">
                   <div OnClick="window.open(`https://pt-br.facebook.com/LojasDeltasul/`)" class="icon-fb" title="Facebook"></div>
                   <div OnClick="window.open(`https://www.instagram.com/lojasdeltasul/`)" class="icon-instagram" title="Instagram"></div>
                 </div>
+                </ul>
+              </div>
+            </div>
+            <div class="footer-col footer-col-pagamento">
+              <div class="footer-content__wrap">
+                <h4 class="footer-content__title">Certificados</h4>
+                <ul class="footer-content__list footer-content__list--gateways">
                 </ul>
               </div>
             </div>
@@ -96,12 +121,6 @@
               <p>"Apenas aos pedidos efetivamente formulados e aceitos não se aplicarão eventuais alterações posteriores de preço."</p><p> LOJAS DELTASUL - CNPJ 98.102.924/0001-01 - PRESIDENTE CASTELO BRANCO - DISTR. INDUSTRIAL - SANTA CRUZ DO SUL - RS - CEP 96835-666</p></div></div></div></div></div>
               <!-- END: Footer Bottom -->
     </footer>
-
-    <style>
-    #imagem_whats{position:fixed;right:20px;bottom:20px;display:block;cursor:pointer;z-index:9999999;float:right}
-    @media only screen and (max-width: 999px) and (min-width: 100px){#imagem_whats{width: 50px; height: 50px;}}
-    </style>
-    <img id="imagem_whats" src="img_base/sprites/whatsapp.png" onClick="window.location.href = `/localizar_lojas.php`">
 
     <script src="js/footer.js"></script>
     <script src="js/save_localizacao.js"></script>

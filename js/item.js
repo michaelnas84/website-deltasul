@@ -13,8 +13,8 @@ function meu_callback(conteudo) {
     if (!("erro" in conteudo)) {
         let cidade_form = removeAcento(conteudo.localidade.toUpperCase())
         var ref_item = window.location.href
-        ref_item = ref_item.split('com.br/item.php?ref=')
-        ref_item = ref_item[1]
+        var ref_item = ref_item.split('com.br/item.php?ref=')
+        var ref_item = ref_item[1]
         var registro_item = $('#registro_produto').val().replace(/[^0-9]/g, '')
         var cep_pesquisa = $('#cep').val().replace(/[^0-9]/g, '')
         $.ajax({
@@ -111,17 +111,21 @@ function changeImage(a) {
         document.getElementById(data_array[xx]).style.display = 'none'
         xx++
     }
-    document.getElementById(a).style.display = 'flex'
+    document.getElementById(a).style.display = "flex"
+    document.getElementById(a).style.justifyContent = "center"
 
 }
 
 
-if (localStorage.vistos_por_ultimo == null) {
-    localStorage.setItem("vistos_por_ultimo", '[]');
+if (localStorage.visto_ultimo == null) {
+    localStorage.setItem("visto_ultimo", '[]')
 }
 try {
-    var propIdToAdd = '<?= $PROD_REF ?>';
-    var myFavouriteProp = JSON.parse(localStorage.getItem("vistos_por_ultimo"));
+    var ref_item = window.location.href
+    var ref_item = ref_item.split('com.br/item.php?ref=')
+    var ref_item = ref_item[1]
+    var propIdToAdd = ref_item
+    var myFavouriteProp = JSON.parse(localStorage.getItem("visto_ultimo"))
     if (myFavouriteProp == null) {
         myFavouriteProp = [];
     }
@@ -141,37 +145,13 @@ try {
         }
     }
     myFavouriteProp.push(propIdToAdd);
-    localStorage.setItem("vistos_por_ultimo", JSON.stringify(myFavouriteProp));
+    localStorage.setItem("visto_ultimo", JSON.stringify(myFavouriteProp));
 
 }
 catch (e) {
-};
-
-
-var vistos_por_ultimo = JSON.parse(localStorage.getItem('vistos_por_ultimo'));
-// Creating a cookie after the document is ready
-$(document).ready(function () {
-    createCookie("vistos_por_ultimo", vistos_por_ultimo, "10");
-});
-// Function to create the cookie
-function createCookie(name, value, days) {
-    var expires;
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + new Date(2147483647 * 1000).toUTCString();
-    }
-    else {
-        expires = "";
-    }
-    document.cookie = escape(name) + "=" +
-        escape(value) + expires + "; path=/";
 }
 
-
-$("button").on("click", function(){
-  var confirmado = confirm('Confirma produto no site?');
-  if(confirmado){
+$("#button_adiciona_item_site").on("click", function(){
     var ref_item = $('#registro_produto').val()
     var data = `acao=confirma_produto_site&prod_cod=${ref_item}`;
     $.ajax({
@@ -185,10 +165,33 @@ $("button").on("click", function(){
             if(retorno == 'success'){
                 alert('Item confirmado com sucesso!')
                 window.location.replace("/admin/dashboard_produtos_no_site.php")
-            } else {
+                return false
+            } 
                 alert('Erro ao confirmar produto no site')
-            }
         }
     })
-  }
 })
+
+$("#button_voltar").on("click", function(){
+    var ref_item = $('#registro_produto').val()
+    window.location.replace(`/admin/dashboard_inserir_ficha_tecnica.php?ref=${ref_item}`)
+})
+
+var visto_ultimo = localStorage.getItem('visto_ultimo')
+$(document).ready(function () {
+    createCookie("visto_ultimo", visto_ultimo, "10")
+})
+
+function createCookie(name, value, days) {
+    var expires
+    if (days) {
+        var date = new Date()
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
+        expires = "; expires=" + new Date(2147483647 * 1000).toUTCString()
+    }
+    else {
+        expires = "";
+    }
+    document.cookie = escape(name) + "=" +
+        escape(value) + expires + "; path=/"
+}

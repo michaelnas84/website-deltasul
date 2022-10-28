@@ -1,67 +1,55 @@
-function hightlightme(item) {
-    item.style.fill = "#090e1c"
-    document.getElementById('text_' + item.id).style.opacity = "1"
-}
-function clicked(item) {
-    document.getElementById(item.id).click()
-    item.style.fill = "#090e1c"
-    document.getElementById('custom-select').value = item.id
-    document.getElementById('select2-custom-select-container').title = item.id
-    document.getElementById('select2-custom-select-container').innerHTML = item.id.replace(/_/g, ' ')
-    document.getElementById('scroll').click()
-    if (item == 'todos') {
-        document.getElementById('slick-track-tot').style.display = 'none'
-        document.getElementById('slick-track-min1').style.display = 'flex'
-        document.getElementById('slick-track-min2').style.display = 'flex'
-        document.getElementById('slick-track-min3').style.display = 'flex'
-    } else {
-        document.getElementById('slick-track-tot').style.display = 'flex'
-        document.getElementById('slick-track-min1').style.display = 'none'
-        document.getElementById('slick-track-min2').style.display = 'none'
-        document.getElementById('slick-track-min3').style.display = 'none'
-    }
-}
-function unhighlightme(item) {
-    item.style.fill = "#17264d"
-    document.getElementById('text_' + item.id).style.opacity = "0"
-}
-
-function troca_option() {
-    option_selected = document.getElementById('custom-select').value
-    document.getElementById(option_selected).click()
-    document.getElementById('scroll').click()
-    if (option_selected == 'todos') {
-        document.getElementById('slick-track-tot').style.display = 'none'
-        document.getElementById('slick-track-min1').style.display = 'flex'
-        document.getElementById('slick-track-min2').style.display = 'flex'
-        document.getElementById('slick-track-min3').style.display = 'flex'
-    } else {
-        document.getElementById('slick-track-tot').style.display = 'flex'
-        document.getElementById('slick-track-min1').style.display = 'none'
-        document.getElementById('slick-track-min2').style.display = 'none'
-        document.getElementById('slick-track-min3').style.display = 'none'
-    }
-}
-
 function whatsapp() {
     alert('Aguardando WhatsApp de cada loja')
 }
 
-$('.btn').on('click', function () {
-    var cat = $(this).attr('data-cad')
-    if (cat == 'todos') {
-        $('.card div').show()
-    } else {
-        $('.card div').each(function () {
-            if (!$(this).hasClass(cat)) {
-                $(this).hide()
-            } else {
-                $(this).show()
-            }
-        })
+function exibe_loja_selecionada(loja){
+    $("#scroll").click()
+    if (loja == 'todos') {
+        $('.card').show()
+        return false
     }
+    $('.card').each(function () {
+        if (!$(this).hasClass(loja)) {
+            $(this).hide()
+        } else {
+            $(this).show()
+        }
+    })
+}
+
+$('.loja_cidade').on('click', function () {
+    document.getElementById('custom-select').value = this.id
+    document.getElementById('select2-custom-select-container').title = this.id
+    document.getElementById('select2-custom-select-container').innerHTML = this.id.replace(/_/g, ' ')
+    exibe_loja_selecionada(this.id)
+})
+
+$('.loja_cidade').mouseover(function() {
+    $(this).addClass("hover_map")
+    $(`#text_${this.id}`).css("opacity","1")
+})
+
+$('.loja_cidade').mouseleave(function() {
+    $(this).removeClass("hover_map")
+    $(`#text_${this.id}`).css("opacity","0")
+})
+
+$('#custom-select').on('change', function () {
+    exibe_loja_selecionada(this.value)
 })
 
 $(document).ready(function () {
+    
     $('.custom-select').select2()
+
+    $("option").each(function (index) {
+        var cidade_usuario = localStorage.getItem("cidade_usuario").normalize('NFD').replace(/[\u0300-\u036f]/g, "").toUpperCase().replaceAll(' ', '_')
+        if(this.value.includes(cidade_usuario)){
+            $('#custom-select').val(cidade_usuario).change()
+            return false
+        }
+    })
+
 })
+
+

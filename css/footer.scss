@@ -20,7 +20,7 @@ sup {
 }
 
 .footer-col-pagamento .footer-content__item {
-	width: 16.66667%
+	width: 25%
 }
 
 @media (min-width:991px) {
@@ -67,6 +67,7 @@ sup {
 .footer-newsletter__text {
 	@media (max-width:991px){
 		margin-bottom: 20px;
+		font-size: 16px !important;
 	}
 	color: #fff;
 	text-transform: uppercase;
@@ -196,7 +197,7 @@ sup {
             float: left
         }
         .footer-col {
-            width: 16.66667%
+            width: 25%
         }
         .av-col-md-6 {
             width: 25%
@@ -302,7 +303,7 @@ sup {
 	}
 
 	.footer-col {
-		width: 16.66667%
+		width: 25%
 	}
 }
 
@@ -354,7 +355,7 @@ footer li {
 	}
 
 	.footer-col {
-		width: 16.66667%
+		width: 25%
 	}
 }
 

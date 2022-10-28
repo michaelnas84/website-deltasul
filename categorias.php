@@ -56,24 +56,18 @@
       ";
 
   // echo '<pre>' . $sql . '</pre>'; exit;  
-  $xx = 0;
   $tot_itens = 0;
   $stmt = $pdo->query($sql);
   while ($row_produtos = $stmt->fetch()) {
-    if ($row_produtos['registro'] != $registro) {
-      $arr_dados['ref'][$tot_itens]                                                 = $row_produtos['referencia'];
-      $arr_dados['categoria'][$tot_itens]                                           = $row_produtos['categoria'];
-      $arr_dados['sub_categoria'][$tot_itens]                                       = $row_produtos['subcategoria'];
-      $arr_dados['nome'][$tot_itens]                                                = $row_produtos['descricaoweb'];
-      $arr_dados['marca'][$tot_itens]                                               = $row_produtos['marca'];
-      $tot_itens++;
-      $xx = 0;
-    }
-    $registro                                                                         = $row_produtos['registro'];
-    $arr_dados['URL_ARQ'][$row_produtos['referencia']][$xx]                           = $row_produtos['url_imagem_capa'];
-    $arr_dados['URL_ARQ'][$row_produtos['referencia']][$xx+1]                           = $row_produtos['url_imagem_contra_capa'];
+    $arr_dados['ref'][$tot_itens]                                                 = $row_produtos['referencia'];
+    $arr_dados['categoria'][$tot_itens]                                           = $row_produtos['categoria'];
+    $arr_dados['sub_categoria'][$tot_itens]                                       = $row_produtos['subcategoria'];
+    $arr_dados['nome'][$tot_itens]                                                = $row_produtos['descricaoweb'];
+    $arr_dados['marca'][$tot_itens]                                               = $row_produtos['marca'];
+    $arr_dados['URL_ARQ_01'][$row_produtos['referencia']]                         = $row_produtos['url_imagem_capa'];
+    $arr_dados['URL_ARQ_02'][$row_produtos['referencia']]                         = $row_produtos['url_imagem_contra_capa'];
+    $tot_itens++;
   }
-  $ref_unit = $arr_dados_unit['ref'];
 
   if($arr_dados['marca']){
     $arr_dados['marca_unico'] = array_unique($arr_dados['marca']);
@@ -145,31 +139,31 @@
                         </div>
                       <?php } ?>
                       <?php for ($item = 0; $item < $tot_itens; $item++) { ?>
-                        <div class="slick-slide <?= iconv('UTF-8', 'ASCII//TRANSLIT', strtolower($arr_dados['marca'][$item])) ?>">
-                          <div class="shelf-item shef-item--binded second-image <?= iconv('UTF-8', 'ASCII//TRANSLIT', strtolower($arr_dados['marca'][$item])) ?>">
-                            <div class="shelf-item__img <?= iconv('UTF-8', 'ASCII//TRANSLIT', strtolower($arr_dados['marca'][$item])) ?>">
-                              <a class="shelf-item__img-link <?= iconv('UTF-8', 'ASCII//TRANSLIT', strtolower($arr_dados['marca'][$item])) ?>">
-                                <div class="shelf-item__image has--lazyload is--lazyloaded <?= iconv('UTF-8', 'ASCII//TRANSLIT', strtolower($arr_dados['marca'][$item])) ?>">
-                                  <img src="img_base/produtos/<?= preg_replace('/[^0-9]/', '', $arr_dados['ref'][$item]) ?>/<?= $arr_dados['URL_ARQ'][$arr_dados['ref'][$item]][0] ?>" width="204" height="204">
+                        <div class="slick-slide cat_ocult <?= iconv('UTF-8', 'ASCII//TRANSLIT', strtolower($arr_dados['marca'][$item])) ?>">
+                          <div class="shelf-item shef-item--binded second-image">
+                            <div class="shelf-item__img">
+                              <a class="shelf-item__img-link">
+                                <div class="shelf-item__image has--lazyload is--lazyloaded">
+                                  <img src="img_base/produtos/<?= preg_replace('/[^0-9]/', '', $arr_dados['ref'][$item]) ?>/<?= $arr_dados['URL_ARQ_01'][$arr_dados['ref'][$item]] ?>"  style="max-height: 204px">
                                 </div>
-                                <figure class="shelf-item__image__second <?= iconv('UTF-8', 'ASCII//TRANSLIT', strtolower($arr_dados['marca'][$item])) ?>">
-                                  <a href="item.php?ref=<?= $arr_dados['ref'][$item] ?>"><img width="204" height="204" src="img_base/produtos/<?= preg_replace('/[^0-9]/', '', $arr_dados['ref'][$item]) ?>/<?= $arr_dados['URL_ARQ'][$arr_dados['ref'][$item]][1] ?>"></a>
+                                <figure class="shelf-item__image__second">
+                                  <a href="item.php?ref=<?= $arr_dados['ref'][$item] ?>"><img  style="max-height: 204px" src="img_base/produtos/<?= preg_replace('/[^0-9]/', '', $arr_dados['ref'][$item]) ?>/<?= $arr_dados['URL_ARQ_02'][$arr_dados['ref'][$item]] ?>"></a>
                                 </figure>
                               </a>
                             </div>
-                            <div class="yv-review-quickreview <?= iconv('UTF-8', 'ASCII//TRANSLIT', strtolower($arr_dados['marca'][$item])) ?>"></div>
-                            <div class="shelf-item__info <?= iconv('UTF-8', 'ASCII//TRANSLIT', strtolower($arr_dados['marca'][$item])) ?>">
-                              <ul class="shelf-item__title <?= iconv('UTF-8', 'ASCII//TRANSLIT', strtolower($arr_dados['marca'][$item])) ?>" id="ulItens">
-                                <li class="shelf-item__title-link <?= iconv('UTF-8', 'ASCII//TRANSLIT', strtolower($arr_dados['marca'][$item])) ?>"><?= $arr_dados['nome'][$item] ?></li>
+                            <div class="yv-review-quickreview"></div>
+                            <div class="shelf-item__info">
+                              <ul class="shelf-item__title" id="ulItens">
+                                <li class="shelf-item__title-link"><?= $arr_dados['nome'][$item] ?></li>
                               </ul>
-                              <div class="shelf-item__buy-info <?= iconv('UTF-8', 'ASCII//TRANSLIT', strtolower($arr_dados['marca'][$item])) ?>">
-                                <div class="shelf-item__price <?= iconv('UTF-8', 'ASCII//TRANSLIT', strtolower($arr_dados['marca'][$item])) ?>">
-                                  <div class="shelf-item__list-price <?= iconv('UTF-8', 'ASCII//TRANSLIT', strtolower($arr_dados['marca'][$item])) ?>">R$<?= $array_precos[$arr_dados['ref'][$item]]['preco']['de'] ?></div>
-                                  <div id="shelf-item__best-price" value="<?= $array_precos[$arr_dados['ref'][$item]]['preco']['por'] ?>" class="shelf-item__best-price <?= iconv('UTF-8', 'ASCII//TRANSLIT', strtolower($arr_dados['marca'][$item])) ?>">R$<?= $array_precos[$arr_dados['ref'][$item]]['preco']['por'] ?></div>
-                                  <div class="shelf-item__installments <?= iconv('UTF-8', 'ASCII//TRANSLIT', strtolower($arr_dados['marca'][$item])) ?>">ou em <?= $arr_dados['qtd_vezes'][$item] ?>x de R$<span class="shelf-item__installments__value"><?= $arr_dados['valor_parcelado'][$item] ?></span>
+                              <div class="shelf-item__buy-info">
+                                <div class="shelf-item__price">
+                                  <div class="shelf-item__list-price">R$<?= $array_precos[$arr_dados['ref'][$item]]['preco']['de'] ?></div>
+                                  <div class="shelf-item__best-price" value="<?= $array_precos[$arr_dados['ref'][$item]]['preco']['por'] ?>">R$<?= $array_precos[$arr_dados['ref'][$item]]['preco']['por'] ?></div>
+                                  <div class="shelf-item__installments">ou em <?= $arr_dados['qtd_vezes'][$item] ?>x de R$<span class="shelf-item__installments__value"><?= $arr_dados['valor_parcelado'][$item] ?></span>
                                   </div>
                                 </div>
-                                <div id="shelf-item__btns" class="shelf-item__btns <?= iconv('UTF-8', 'ASCII//TRANSLIT', strtolower($arr_dados['marca'][$item])) ?>">
+                                <div id="shelf-item__btns" class="shelf-item__btns">
                                   <a href="item.php?ref=<?= $arr_dados['ref'][$item] ?>" class="shelf-item__btn-buy">VER MAIS</a>
                                 </div>
                               </div>

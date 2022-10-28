@@ -19,7 +19,7 @@
       AND 
         status = 'S'
       ORDER BY
-        registro
+        registro DESC
       ";
       // echo '<pre>' . $sql . '</pre>'; exit;
       $tot_sliders = 0;

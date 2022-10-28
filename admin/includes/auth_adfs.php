@@ -110,6 +110,7 @@ if (! @ldap_bind($ldap_connection, $user.$dominio, $pass)) {
             $_SESSION['department']         = str_pad(preg_replace("/[^0-9]/", "", $ldap_loja), 3, "0", STR_PAD_LEFT);
             $_SESSION['cpf']                = preg_replace("/[^0-9]/", "", $ldap_cpf);
             $_SESSION['nome_usuario']       = $ldap_nome_completo;
+            $_SESSION['tipo_perfil']        = $ldap_perfil;
         
             header("Location: ../dashboard_index.php");
 
