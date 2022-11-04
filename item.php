@@ -180,8 +180,8 @@
       <?php include('includes/sections/section_head.php'); ?>
       <link rel="stylesheet" type="text/css" href="css/item.css<?= '?'.bin2hex(random_bytes(50))?>">
       <link rel="stylesheet" type="text/css" href="css/magiczoomplus.css<?= '?'.bin2hex(random_bytes(50))?>">
-      <script src="js/magiczoomplus.js"></script>
-      <script src="admin/js/jquery.redirect.js"></script>
+      <script src="js/magiczoomplus.js<?= '?'.bin2hex(random_bytes(50))?>"></script>
+      <script src="admin/js/jquery.redirect.js<?= '?'.bin2hex(random_bytes(50))?>"></script>
       <title>Produto | Lojas Deltasul</title>
    </head>
    <?php include('includes/sections/section_header.php'); ?>
@@ -583,7 +583,7 @@
 
       </main>
 
-      <script src="js/item.js"></script>
+      <script src="js/item.js<?= '?'.bin2hex(random_bytes(50))?>"></script>
 
       <input hidden type="text" id="registro_produto" value="<?= $PROD_REF ?>">
 

@@ -2,7 +2,11 @@
 
       if (!isset($_SESSION)) session_start();
       if (!isset($_SESSION['nome_usuario'])) { session_destroy(); }
-      if($_SESSION['nome_usuario'] != null && $_SESSION['permissoes'] != null || $_SESSION['admin'] == 'S'){
+      if($_SESSION['nome_usuario'] == null || $_SESSION['permissoes'] == null || (!$_SESSION['admin'] == 'S')){
+        $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
+        header("Location: index.php?redir=".$URL_ATUAL[1]."");
+        die();
+      }
 
 
       header("Content-type: text/html; charset=utf-8");
@@ -180,7 +184,7 @@
 
             </div>
             <input hidden name="acao" value="cadastro_permissoes">
-            <div class="pt-4">
+            <div class="pt-4 pb-4">
                <div class="flex">
                   <button type="reset" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition all" onClick="window.location.reload()">Limpar</button>
                   <a class="cursor-pointer ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition all text-center" onClick="envia_form();">Enviar</a>
@@ -222,7 +226,3 @@
    <script src="js/dashboard_liberar_acessos.js"></script>
 
 </html>
-<?php } else { 
-    $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
-    header("Location: index.php?redir=".$URL_ATUAL[1]."");
-    die(); } ?>

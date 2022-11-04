@@ -1,7 +1,11 @@
 <?php
     if (!isset($_SESSION)) session_start();
     if (!isset($_SESSION['nome_usuario'])) { session_destroy(); }
-    if($_SESSION['nome_usuario'] != null && $_SESSION['permissoes'] != null){
+    if($_SESSION['nome_usuario'] == null || $_SESSION['permissoes'] == null){
+      $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
+      header("Location: index.php?redir=".$URL_ATUAL[1]."");
+      die();
+    }
 
       header("Content-type: text/html; charset=utf-8");
         include_once('includes/connections.php');
@@ -302,7 +306,3 @@
    </div>
 
 </body>
-<?php } else { 
-    $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
-    header("Location: index.php?redir=".$URL_ATUAL[1]."");
-    die(); } ?>

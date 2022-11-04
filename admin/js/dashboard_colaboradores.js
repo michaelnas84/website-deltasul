@@ -36,15 +36,25 @@ function envia_form() {
 
 
 function exibe_modal_altera(reg, nome, apelido, ddd_cel, nro_celular, cod_emp) {
+    $('#title-modal').html('Editar Colaborador')
     $('#registro').val(reg)
     $('#nome').val(nome)
+    $('#nome').attr('readonly', true);
     $('#apelido').val(apelido)
     $('#ddd_cel').val(ddd_cel)
     $('#nro_celular').val(nro_celular)
     $("#cod_emp").val(cod_emp).change()
-    
     $('#acao').val('colaboradores_alterar')
 }
+
+function exibe_modal_limpo() {
+    $('#title-modal').html('Cadastrar Colaborador')
+    $('#registro, #nome, #apelido, #ddd_cel, #nro_celular').val(null)
+    $('#nome').attr('readonly', false);
+    $("#cod_emp").val('0').change()
+    $('#acao').val('colaboradores_cadastro')
+}
+
 
 function excluir(reg) {
     $.ajax({

@@ -1,7 +1,11 @@
 <?php
    if (!isset($_SESSION)) session_start();
    if (!isset($_SESSION['nome_usuario'])) { session_destroy(); }
-    if($_SESSION['nome_usuario'] != null && $_SESSION['permissoes'] != null && (in_array("4", $_SESSION['permissoes']))){
+   if($_SESSION['nome_usuario'] == null || $_SESSION['permissoes'] == null || (!in_array("4", $_SESSION['permissoes']))){
+    $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
+    header("Location: index.php?redir=".$URL_ATUAL[1]."");
+    die();
+  }
 
 
       header("Content-type: text/html; charset=utf-8");
@@ -159,8 +163,3 @@
 </body>
 
 <script src="js/dashboard_contato_clientes.js"></script>
-
-<?php } else { 
-    $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
-    header("Location: index.php?redir=".$URL_ATUAL[1]."");
-    die(); } ?>

@@ -1,7 +1,11 @@
 <?php 
     if (!isset($_SESSION)) session_start();
     if (!isset($_SESSION['nome_usuario'])) { session_destroy(); }
-    if($_SESSION['nome_usuario'] != null && $_SESSION['permissoes'] != null && (in_array("8", $_SESSION['permissoes']))){
+    if($_SESSION['nome_usuario'] == null || $_SESSION['permissoes'] == null || (!in_array("8", $_SESSION['permissoes']))){
+      $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
+      header("Location: index.php?redir=".$URL_ATUAL[1]."");
+      die();
+    }
     $post_ref = $_GET["ref"];
 ?>
 <!DOCTYPE html>
@@ -105,7 +109,3 @@
 <script src="js/dashboard_inserir_ficha_tecnica.js"></script>
 
 </html>
-<?php } else { 
-    $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
-    header("Location: index.php?redir=".$URL_ATUAL[1]."");
-    die(); } ?>

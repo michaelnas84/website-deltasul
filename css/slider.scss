@@ -84,3 +84,17 @@
   @media only screen and (max-width: 300px) {
   .prev, .next,.text {font-size: 11px}
   }
+
+  .estilo_extra{
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    @media (min-width: 992px) {
+      max-height: 21vw;
+    }
+  }
+
+  .estilo_extra img{
+    width: 100vw; background-position: center;
+  }

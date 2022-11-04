@@ -41,7 +41,9 @@ function enviar_dados(acao) {
         dataType: 'html',
         scriptCharset: "UTF-8",
         success: function (retorno) {
+            if(retorno == 'Recebemos seu contato com sucessso!'){
             document.getElementById('enviar').disabled = 'true'
+            }
             alert(retorno)
         }
     })

@@ -1,7 +1,11 @@
   <?php
       if (!isset($_SESSION)) session_start();
       if (!isset($_SESSION['nome_usuario'])) { session_destroy(); }
-      if($_SESSION['nome_usuario'] != null && $_SESSION['permissoes'] != null && (in_array("1", $_SESSION['permissoes']))){
+      if($_SESSION['nome_usuario'] == null || $_SESSION['permissoes'] == null || (!in_array("1", $_SESSION['permissoes']))){
+        $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
+        header("Location: index.php?redir=".$URL_ATUAL[1]."");
+        die();
+      }
 
 
       header("Content-type: text/html; charset=utf-8");
@@ -67,7 +71,9 @@
       WHERE
          pagina = 'index.php'
       AND
-        MONTH(data) = MONTH(NOW())
+         MONTH(data) = MONTH(NOW())
+      AND 
+         YEAR(data)  = YEAR(NOW())
       GROUP BY 
          diasemana
       ";
@@ -78,6 +84,25 @@
         $qtd_cidade[$row_visitas['DIASEMANA']]                   = $row_visitas['QTD'];
       }
 
+
+      $sql = "
+      SELECT
+         diasemana 	 	          AS DIASEMANA,
+         count(registro)        AS QTD
+      FROM
+         web_localacesso
+      WHERE
+         pagina = 'index.php'
+      GROUP BY 
+         diasemana
+      ";
+      // echo '<pre>' . $sql . '</pre>'; exit;
+      $stmt = $pdo->query($sql);
+      for($xx=0; $xx<=6; $xx++){ $qtd_cidade_total[$xx] = 0; }
+      while($row_visitas_total = $stmt->fetch()){
+        $qtd_cidade_total[$row_visitas_total['DIASEMANA']]                   = $row_visitas_total['QTD'];
+      }
+
       $sql = "
       SELECT
          diasemana 	 	          AS DIASEMANA,
@@ -86,6 +111,8 @@
         web_buscaproduto
       WHERE
         MONTH(data) = MONTH(NOW())
+      AND 
+        YEAR(data)  = YEAR(NOW())
       GROUP BY 
          diasemana
       ";
@@ -94,6 +121,22 @@
       for($xx=0; $xx<=6; $xx++){ $qtd_clicks_interesse_semana[$xx] = 0; }
       while($row_clicks_interesse_semana = $stmt->fetch()){
         $qtd_clicks_interesse_semana[$row_clicks_interesse_semana['DIASEMANA']]                   = $row_clicks_interesse_semana['QTD'];
+      }
+
+      $sql = "
+      SELECT
+         diasemana 	 	          AS DIASEMANA,
+         count(registro)        AS QTD
+      FROM
+        web_buscaproduto
+      GROUP BY 
+         diasemana
+      ";
+      // echo '<pre>' . $sql . '</pre>'; exit;
+      $stmt = $pdo->query($sql);
+      for($xx=0; $xx<=6; $xx++){ $qtd_clicks_interesse_semana_total[$xx] = 0; }
+      while($row_clicks_interesse_semana_total = $stmt->fetch()){
+        $qtd_clicks_interesse_semana_total[$row_clicks_interesse_semana_total['DIASEMANA']]                   = $row_clicks_interesse_semana_total['QTD'];
       }
   ?>
 <!DOCTYPE html>
@@ -142,12 +185,12 @@
             </div>
           </div>
         </div>
-        <div class="w-full xl:w-1/2 justify-center">
+        <!-- <div class="w-full xl:w-1/2 justify-center">
           <div class="container-box">
             <div class="card-relatorios">
               <div class="titulo-relatorio" id="div-bar-chart">
               <h2 class="p-4 text-lg font-bold leading-7 text-gray-900 sm:truncate sm:text-xl sm:tracking-tight">5 produtos com mais clicks de interesse</h2>
-                <?php include('includes/relatorios/bar-chart.php'); ?>
+                <?php // include('includes/relatorios/bar-chart.php'); ?>
               </div>
             </div>
           </div>
@@ -157,16 +200,11 @@
             <div class="card-relatorios">
               <div class="titulo-relatorio" id="div-bar-chart2">
               <h2 class="p-4 text-lg font-bold leading-7 text-gray-900 sm:truncate sm:text-xl sm:tracking-tight">5 cidades com mais clicks de interesse (SEM LOJA)</h2>
-                <?php include('includes/relatorios/bar-chart2.php'); ?>
+                <?php // include('includes/relatorios/bar-chart2.php'); ?>
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
   </body>
 
   <script src="js/dashboard_relatorios.js"></script>
-
-      <?php } else { 
-    $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
-    header("Location: index.php?redir=".$URL_ATUAL[1]."");
-    die(); } ?>

@@ -23,6 +23,19 @@ function readURL(input) {
     }
 }
 
+function readURL_mobile(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader()
+        reader.onload = function (e) {
+            $('#input_img_exib_svg_mobile').css('display', 'none')
+            $('#input_img_exib_mobile').css('display', 'block')
+            $('#input_img_exib_mobile')
+                .attr('src', e.target.result)
+        };
+        reader.readAsDataURL(input.files[0])
+    }
+}
+
 function enviar_dados() {
     event.preventDefault()
     var form = $('#form')[0];
@@ -37,6 +50,7 @@ function enviar_dados() {
         method: 'POST',
         cache: false,
         success: function (retorno) {
+            console.log(retorno)
             if (retorno == 'error_user') {
                 exibe_notificacao('red', 'Ocorreu um problema! (login_error)', 'Entre em contato com o suporte')
                 setTimeout(() => window.location.replace("dashboard_slider.php"), 2000)

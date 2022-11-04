@@ -962,7 +962,7 @@ footer li {
     display: flex;
   }
 }
-@media (max-width: 992px) {
+@media (max-width: 991px) {
   .class-mobile {
     width: 0px !important;
     height: 0px !important;

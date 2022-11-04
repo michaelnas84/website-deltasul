@@ -1,7 +1,11 @@
 <?php
     if (!isset($_SESSION)) session_start();
     if (!isset($_SESSION['nome_usuario'])) { session_destroy(); }
-    if($_SESSION['nome_usuario'] != null && $_SESSION['permissoes'] != null && (in_array("2", $_SESSION['permissoes']))){
+    if($_SESSION['nome_usuario'] == null || $_SESSION['permissoes'] == null || (!in_array("2", $_SESSION['permissoes']))){
+      $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
+      header("Location: index.php?redir=".$URL_ATUAL[1]."");
+      die();
+    }
 
 
       header("Content-type: text/html; charset=utf-8");
@@ -200,8 +204,8 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <div class="p-6 space-y-6">
-              <img id="img-modal" src="" class="w-full"/>
+            <div class="p-6 space-y-6 flex justify-center">
+              <img id="img-modal" style="max-height: 50vh;width: auto;" src="" class="w-full"/>
             </div>
             <!-- Modal footer -->
             <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
@@ -242,8 +246,3 @@
 </body>
 
 <script src="js/dashboard_produtos_no_site.js"></script>
-
-<?php } else { 
-    $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
-    header("Location: index.php?redir=".$URL_ATUAL[1]."");
-    die(); } ?>

@@ -1,7 +1,11 @@
 <?php
     if (!isset($_SESSION)) session_start();
     if (!isset($_SESSION['nome_usuario'])) { session_destroy(); }
-    if($_SESSION['nome_usuario'] != null && $_SESSION['permissoes'] != null && (in_array("3", $_SESSION['permissoes']))){
+    if($_SESSION['nome_usuario'] == null || $_SESSION['permissoes'] == null || (!in_array("3", $_SESSION['permissoes']))){
+      $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
+      header("Location: index.php?redir=".$URL_ATUAL[1]."");
+      die();
+    }
 
 
       header("Content-type: text/html; charset=utf-8");
@@ -17,6 +21,7 @@
 			REGISTRO                      AS REGISTRO,
 			descricao                     AS DESCR,
 			urlarq                        AS URL_ARQ,
+			urlarq_mobile                 AS URLARQ_MOBILE,
 			url                           AS URL,
 			dataexibe                     AS DATA_EXIBICAO,
 			dataexpira                    AS DATA_EXPIRACAO,
@@ -107,10 +112,19 @@
         </div>
 
         <div class="sm:grid sm:grid-cols-3 sm:items-center sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-4">
-          <label for="photo" class="block text-sm font-medium text-gray-700">Imagem</label>
+          <label for="photo" class="block text-sm font-medium text-gray-700">Imagem Desktop</label>
           <div class="mt-1 sm:col-span-3 sm:mt-0">
-            <div class="px-8 flex items-center">
+            <div class="px-8 flex items-center justify-center">
 			  	    <img src="../img_base/slider/<?=$row_slider['URL_ARQ'] ?>" class="max-w-full h-auto"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="sm:grid sm:grid-cols-3 sm:items-center sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-4">
+          <label for="photo" class="block text-sm font-medium text-gray-700">Imagem Mobile</label>
+          <div class="mt-1 sm:col-span-3 sm:mt-0">
+            <div class="px-8 flex items-center justify-center">
+			  	    <img src="../img_base/slider/<?=$row_slider['URLARQ_MOBILE'] ?>" class="max-w-full h-auto"/>
             </div>
           </div>
         </div>
@@ -119,7 +133,7 @@
   </div>
   <input class="hidden" name="acao" value="slider_alterar">
 <?php } ?>
-  <div class="pt-4">
+  <div class="pt-4 pb-4">
     <div class="flex justify-end">
       <input type="button" value="Voltar" onclick="history.back()" class="cursor-pointer rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
       <input type="button" value="Salvar" onClick="enviar_dados()" class="cursor-pointer ml-3 inline-flex justify-center rounded-md border border-transparent bg-green-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
@@ -160,7 +174,3 @@
 <script src="js/dashboard_slider_altera.js"></script>
 
 </html>
-<?php } else { 
-    $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
-    header("Location: index.php?redir=".$URL_ATUAL[1]."");
-    die(); } ?>

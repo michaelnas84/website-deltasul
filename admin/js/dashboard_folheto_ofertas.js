@@ -34,15 +34,20 @@ function envia_form() {
     })
 }
 
-
 function exibe_modal_altera(reg, descr, url, data_ini, data_fim) {
-
+    $('#title-modal').html('Editar Folheto de Ofertas')
     $('#registro').val(reg)
     $('#descr').val(descr)
     $('#url').val(url)
     $('#data_exibicao').val(data_ini)
     $('#data_expiracao').val(data_fim)
     $('#acao').val('folheto_alterar')
+}
+
+function exibe_modal_limpo() {
+    $('#title-modal').html('Cadastrar Folheto de Ofertas')
+    $('#registro, #descr, #url, #data_exibicao, #data_expiracao').val(null)
+    $('#acao').val('folheto_cadastro')
 }
 
 function excluir(reg) {

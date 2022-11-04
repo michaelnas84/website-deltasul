@@ -7,4 +7,142 @@
   margin: 10px 0px;
   justify-content: space-around;
   align-items: center;
+}
+
+.bloco-faleconosco {
+  width: 100%;
+}
+@media (min-width: 991px) {
+  .bloco-faleconosco {
+    width: 50%;
+    padding: 20px;
+  }
+}
+
+.modal-window {
+  position: fixed;
+  background-color: rgba(121, 121, 121, 0.6);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s;
+}
+.modal-window > div {
+  width: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2em;
+  background: white;
+}
+.modal-window header {
+  font-weight: bold;
+}
+.modal-window h1 {
+  font-size: 150%;
+  margin: 0 0 15px;
+}
+
+.modal-close {
+  color: #aaa;
+  line-height: 50px;
+  font-size: 80%;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+  width: 70px;
+  text-decoration: none;
+}
+.modal-close:hover {
+  color: black;
+}
+
+.container {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.modal-window {
+  display: flex;
+  flex-wrap: wrap;
+}
+.modal-window > div {
+  border-radius: 1rem;
+}
+
+.modal-window div:not(:last-of-type) {
+  margin-bottom: 15px;
+}
+
+.logo {
+  max-width: 150px;
+  display: block;
+}
+
+small {
+  color: lightgray;
+}
+
+.btn {
+  background-color: white;
+  padding: 1em 1.5em;
+  border-radius: 0.5rem;
+  text-decoration: none;
+}
+.btn i {
+  padding-right: 0.3em;
+}
+
+.modal_aberto {
+  visibility: visible !important;
+  opacity: 1 !important;
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  pointer-events: auto;
+}
+
+.modal-section-input {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.modal-section-input > label {
+  width: 100%;
+}
+.modal-section-input > input {
+  width: 100%;
+  padding: 10px;
+}
+.modal-section-input > textarea {
+  width: 100%;
+  padding: 10px;
+}
+
+.button_enviar {
+  display: inline-block;
+  margin-top: 10px;
+  background-color: #f9b900;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0 35px;
+  line-height: 42px;
+  text-decoration: none;
+  border-radius: 3px;
+  border: 0;
+  opacity: 0.8;
+  transition: 0.3s;
+}
+
+.button_enviar:hover {
+  opacity: 1;
 }/*# sourceMappingURL=fale_conosco.css.map */

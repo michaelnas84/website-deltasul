@@ -1,20 +1,16 @@
-<?php include('includes/api_slider.php'); ?>
 <link rel="stylesheet" href="css/slider.css">
 
-  <div class="slideshow-container">
-    <?php for($xx=0; $xx < $tot_sliders; $xx++) { ?>
-        <div class="mySlides fade" style='width: 100%; max-height: 21vw; overflow: hidden; display: flex; align-items: center;'><img <?php if($slider['url'][$xx] != null) { $cursor = 'cursor: pointer'; ?> onclick="location.href='<?= $slider['url'][$xx]?>'"<?php } ?> style='width: 100vw; background-position: center;<?= $cursor ?>' src='img_base/slider/<?= $slider['url_arq'][$xx] ?>'></div>
-    <?php } ?>
+    <div id="slideshow-container" class="slideshow-container">
 
-    <a class="prev" OnClick="plusSlides(-1)">&#10094;</a>
-    <a class="next" OnClick="plusSlides(1)">&#10095;</a>
+      <a class="prev" OnClick="plusSlides(-1)">&#10094;</a>
+      <a class="next" OnClick="plusSlides(1)">&#10095;</a>
 
     </div>
 
     <div class="dots_slider" style="text-align:center; position: absolute; width: 100%; margin-top: -50px;">
-    <?php for($xx=1; $xx <= $tot_sliders; $xx++) { ?>
-    <span class="dot" onclick="currentSlide(<?= $xx ?>)"></span> 
-    <?php } ?>
+
+    <span class="dot" OnClick="currentSlide()"></span> 
+
     </div>
 
-    <script src="js/slider.js"></script>
+    <script src="js/slider.js<?= '?'.bin2hex(random_bytes(50))?>"></script>

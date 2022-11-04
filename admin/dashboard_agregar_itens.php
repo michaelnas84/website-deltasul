@@ -1,7 +1,11 @@
 <?php 
     if (!isset($_SESSION)) session_start();
     if (!isset($_SESSION['nome_usuario'])) { session_destroy(); }
-    if($_SESSION['nome_usuario'] != null && $_SESSION['permissoes'] != null && (in_array("10", $_SESSION['permissoes']))){
+    if($_SESSION['nome_usuario'] == null || $_SESSION['permissoes'] == null || (!in_array("10", $_SESSION['permissoes']))){
+      $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
+      header("Location: index.php?redir=".$URL_ATUAL[1]."");
+      die();
+    }
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -111,10 +115,6 @@
       </div>
     </div>
 
-    <script src="js/dashboard_agregar_itens.js"></script>
+    <script src="js/dashboard_agregar_itens.js<?= '?'.bin2hex(random_bytes(50))?>"></script>
 
 </html>
-<?php } else { 
-    $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
-    header("Location: index.php?redir=".$URL_ATUAL[1]."");
-    die(); } ?>

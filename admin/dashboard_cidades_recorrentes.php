@@ -1,7 +1,11 @@
 <?php
       if (!isset($_SESSION)) session_start();
       if (!isset($_SESSION['nome_usuario'])) { session_destroy(); }
-      if($_SESSION['nome_usuario'] != null && $_SESSION['permissoes'] != null && (in_array("6", $_SESSION['permissoes']))){
+      if($_SESSION['nome_usuario'] == null || $_SESSION['permissoes'] == null || (!in_array("6", $_SESSION['permissoes']))){
+        $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
+        header("Location: index.php?redir=".$URL_ATUAL[1]."");
+        die();
+      }
 
 
       header("Content-type: text/html; charset=utf-8");
@@ -12,16 +16,19 @@
 
       $sql = "
       SELECT 
-         cidade               AS CIDADE,
-         COUNT(cidade)        AS CIDADE_QTD
+        CONCAT(cidade, ' - ', estado, ' / ', pais)    AS CIDADE,
+        COUNT(cidade)                                 AS CIDADE_QTD
       FROM
         web_localacesso
       WHERE 
         pagina = 'index.php'
       GROUP BY 
          cidade
-      ORDER BY 
-         COUNT(cidade) DESC
+      ORDER BY
+        count(cidade) DESC,
+        pais,
+        estado,
+        cidade
       ";
       // echo '<pre>' . $sql . '</pre>'; exit;
       $stmt = $pdo->query($sql);
@@ -108,8 +115,3 @@
 </body>
 
 <script src="js/dashboard_cidades_recorrentes.js"></script>
-
-<?php } else { 
-    $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
-    header("Location: index.php?redir=".$URL_ATUAL[1]."");
-    die(); } ?>

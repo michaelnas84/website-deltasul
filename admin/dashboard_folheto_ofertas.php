@@ -1,7 +1,11 @@
 <?php
     if (!isset($_SESSION)) session_start();
     if (!isset($_SESSION['nome_usuario'])) { session_destroy(); }
-    if($_SESSION['nome_usuario'] != null && $_SESSION['permissoes'] != null && (in_array("3", $_SESSION['permissoes']))){
+    if($_SESSION['nome_usuario'] == null || $_SESSION['permissoes'] == null || (!in_array("11", $_SESSION['permissoes']))){
+      $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
+      header("Location: index.php?redir=".$URL_ATUAL[1]."");
+      die();
+    }
 
       $filter = $_GET['filter'];
       header("Content-type: text/html; charset=utf-8");
@@ -125,7 +129,7 @@
     <?php $header_page_1 = 'Folheto Ofertas';
           $header_page_1_url = 'dashboard_folheto.php';
           $header_page_name = 'Dashboard Folheto Ofertas';
-          $header_page_buttons = '<a data-modal-toggle="defaultModal" class="pointer bg-transparent transition-all hover:bg-green-700 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-700 hover:border-transparent rounded m-1">Criar</a>
+          $header_page_buttons = '<a data-modal-toggle="defaultModal" OnClick="exibe_modal_limpo()" class="pointer bg-transparent transition-all hover:bg-green-700 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-700 hover:border-transparent rounded m-1">Criar</a>
           <a class="bg-transparent transition-all hover:bg-green-700 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-700 hover:border-transparent rounded m-1" href="?filter=todos">Todos</a>
           <a class="bg-transparent transition-all hover:bg-green-700 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-700 hover:border-transparent rounded m-1" href="?filter=ativos">Ativos</a>
           <a class="bg-transparent transition-all hover:bg-red-700 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-700 hover:border-transparent rounded m-1" href="?filter=excluidos_vencidos">Vencidos</a>
@@ -337,8 +341,3 @@
   </body>
   
   <script src="js/dashboard_folheto_ofertas.js"></script>
-
-<?php } else { 
-    $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
-    header("Location: index.php?redir=".$URL_ATUAL[1]."");
-    die(); } ?>

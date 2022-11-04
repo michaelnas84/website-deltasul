@@ -1,7 +1,11 @@
 <?php
     if (!isset($_SESSION)) session_start();
     if (!isset($_SESSION['nome_usuario'])) { session_destroy(); }
-    if($_SESSION['nome_usuario'] != null && $_SESSION['permissoes'] != null && (in_array("3", $_SESSION['permissoes']))){
+    if($_SESSION['nome_usuario'] == null || $_SESSION['permissoes'] == null || (!in_array("12", $_SESSION['permissoes']))){
+      $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
+      header("Location: index.php?redir=".$URL_ATUAL[1]."");
+      die();
+    }
 
       include_once('includes/connections.php');
 
@@ -153,7 +157,7 @@
           $header_page_select_id = 'select_cidades';
           $header_page_select_placeholder = 'Filtrar por Loja';
           $header_page_select_itens = $arr_dados['cidade'];
-          $header_page_buttons = '<!-- <a data-modal-toggle="defaultModal" class="pointer bg-transparent transition-all hover:bg-green-700 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-700 hover:border-transparent rounded m-1">Criar</a> -->
+          $header_page_buttons = '<a data-modal-toggle="defaultModal" OnClick="exibe_modal_limpo()" class="pointer bg-transparent transition-all hover:bg-green-700 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-700 hover:border-transparent rounded m-1">Criar</a>
           <a class="bg-transparent transition-all hover:bg-green-700 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-700 hover:border-transparent rounded m-1" href="?filter=todos">Todos</a>
           <a class="bg-transparent transition-all hover:bg-green-700 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-700 hover:border-transparent rounded m-1" href="?filter=ativos">Ativos</a>
           <a class="bg-transparent transition-all hover:bg-red-700 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-700 hover:border-transparent rounded m-1" href="?filter=excluidos">Excluidos</a>
@@ -276,7 +280,7 @@
                           <label for="about" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Nome</label>
                           <div class="mt-1 sm:col-span-2 sm:mt-0">
                             <div class="flex max-w-lg rounded-md shadow-sm">
-                              <input readonly type="text" name="nome" id="nome" class="block w-full min-w-0 flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                              <input type="text" name="nome" id="nome" maxlength="200" class="block w-full min-w-0 flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
                             </div>
                           </div>
                         </div>
@@ -284,7 +288,7 @@
                           <label for="about" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Apelido</label>
                           <div class="mt-1 sm:col-span-2 sm:mt-0">
                             <div class="flex max-w-lg rounded-md shadow-sm">
-                              <input type="text" name="apelido" id="apelido" class="block w-full min-w-0 flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                              <input type="text" name="apelido" id="apelido" maxlength="200" class="block w-full min-w-0 flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
                             </div>
                           </div>
                         </div>
@@ -292,8 +296,8 @@
                           <label for="about" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Telefone</label>
                           <div class="mt-1 sm:col-span-2 sm:mt-0">
                             <div class="flex max-w-lg rounded-md shadow-sm">
-                              <input type="text" name="ddd_cel" id="ddd_cel" class="w-1/5 block rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-                              <input type="text" name="nro_celular" id="nro_celular" class="w-4/5 block rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                              <input type="text" name="ddd_cel" id="ddd_cel" maxlength="2" class="w-1/5 block rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                              <input type="text" name="nro_celular" id="nro_celular" maxlength="9" class="w-4/5 block rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
                             </div>
                           </div>
                         </div>
@@ -304,7 +308,7 @@
 
                               <div class="w-full flex flex-shrink-0 flex-wrap">
                                   <select id="cod_emp" name="cod_emp" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                  <option selected disabled>Selecione aqui</option>
+                                  <option selected disabled value="0">Selecione aqui</option>
                                     <?php foreach ($header_page_select_itens as $chave => $valor){ echo "<option value={$chave}>{$valor}</option>"; } ?>
                                   </select>
                               </div>
@@ -356,8 +360,3 @@
   </body>
   
   <script src="js/dashboard_colaboradores.js"></script>
-
-<?php } else { 
-    $URL_ATUAL = explode("admin/", $_SERVER["REQUEST_URI"]);
-    header("Location: index.php?redir=".$URL_ATUAL[1]."");
-    die(); } ?>

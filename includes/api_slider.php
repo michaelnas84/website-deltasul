@@ -1,10 +1,10 @@
 <?php
-      include_once('admin/includes/connections.php');
+      include_once('../admin/includes/connections.php');
 
       $sql = "
       SELECT
-        descricao                       AS DESCR,
         urlarq                          AS URL_ARQ,
+        urlarq_mobile                   AS URL_ARQ_MOBILE,
         url                             AS URL
       FROM
         web_slideshow
@@ -26,9 +26,11 @@
 
       $stmt = $pdo->query($sql);
         while($row_slider = $stmt->fetch()){
-          $slider['descr'][$tot_sliders]          = $row_slider['DESCR'];
-          $slider['url_arq'][$tot_sliders]        = $row_slider['URL_ARQ'];
-          $slider['url'][$tot_sliders]            = $row_slider['URL'];
+          $slider[$tot_sliders]['URL_ARQ']          = $row_slider['URL_ARQ'];
+          $slider[$tot_sliders]['URL_ARQ_MOBILE']   = $row_slider['URL_ARQ_MOBILE'];
+          $slider[$tot_sliders]['URL']              = $row_slider['URL'];
           $tot_sliders++;
       }
+
+      echo json_encode($slider);
 ?>

@@ -18,13 +18,13 @@
     $sequencia                      = $_POST["sequencia"];
     $cat_subcat_cad                 = $_POST["item_ficha_name"];
     $itens_exibe_cadastro_ficha     = $_POST["itens_exibe_cadastro_ficha"];
-    $nome                           = $_POST["nome"];
     $data_exibicao                  = $_POST["data_exibicao"];
     $data_expiracao                 = $_POST["data_expiracao"];
     $descr                          = $_POST["descr"];
     $url                            = $_POST["url"];
     $contato_cliente                = $_POST["contato_cliente"];
-    $apelido                        = $_POST["apelido"];
+    $nome                           = ucwords($_POST["nome"]);
+    $apelido                        = ucwords($_POST["apelido"]);
     $ddd_cel                        = $_POST["ddd_cel"];
     $nro_celular                    = $_POST["nro_celular"];
     $cod_emp                        = $_POST["cod_emp"];
@@ -32,6 +32,129 @@
     $agoraref                       = date('dmYHis');
     $agora_dia                      = date('w');
     $usu_logado                     = $_SESSION['user'];
+
+    function verifica_celular($telefone){
+        $telefone= trim(str_replace('/', '', str_replace(' ', '', str_replace('-', '', str_replace(')', '', str_replace('(', '', $telefone))))));
+     
+        $regexTelefone = "^[0-9]{11}$";
+     
+        $regexCel = '/[0-9]{2}[6789][0-9]{3,4}[0-9]{4}/'; // Regex para validar somente celular
+        if (preg_match($regexCel, $telefone)) {
+            return true;
+        } else {
+            return false;
+        }
+     }
+
+    if($acao == "cadastrar_blog_imagem"){
+        if(empty($usu_logado)) {
+            echo ("error_user");
+            exit;
+        }
+        $caminho = $_SERVER['DOCUMENT_ROOT'] . "/img_base/blog/";
+        if(!is_dir($caminho)){ mkdir($caminho); }
+
+        $datenow = date('YmdHis');
+        move_uploaded_file($_FILES["photo"]["tmp_name"], $caminho.$datenow.substr($_FILES["photo"]["name"], -4));
+
+        echo ($datenow.substr($_FILES["photo"]["name"], -4));
+    }
+
+    if($acao == "cadastrar_blog_post"){
+        if(empty($_POST["titulo"]) || empty($_POST["conteudo"])){
+            echo ("error_no_data");
+            exit;
+        } else if(empty($usu_logado)) {
+            echo ("error_user");
+            exit;
+        }
+        
+        $titulo         = $_POST["titulo"];
+        $conteudo       = $_POST["conteudo"];
+
+        foreach (json_decode($conteudo) as $chave => $valor) {
+            if(str_contains($valor, 'img')){
+                $imagem = $valor; break;
+            }
+        }
+
+        $conteudo       = addslashes($_POST["conteudo"]);
+        $imagem         = addslashes($imagem);
+
+        $sql = "
+        INSERT INTO web_blog (
+            titulo,
+            texto,
+            img,
+            primeiroacesso,
+            bloqueado,
+            status,
+            usuario,
+            data
+        ) VALUES (
+            '$titulo',
+            '$conteudo',
+            '$imagem',
+            'S',
+            'N',
+            'N',
+            '$usu_logado',
+            NOW()
+        )";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        
+        echo "success"; 
+    }
+        
+    if($acao == 'blog_confirmar'){
+        if(empty($usu_logado)) {
+            echo ("error_user");
+            exit;
+        }
+            $sql = "
+            UPDATE
+                web_blog
+            SET
+                primeiroacesso  = 'N',
+                bloqueado       = 'N',
+                status          = 'S',
+                usuarioalt      = '$usu_logado',
+                dataalt         = NOW()
+            WHERE
+                REGISTRO        = $registro
+            ";
+            
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+            
+        echo ("success");
+    }
+
+    if($acao == 'blog_excluir'){
+        if(empty($usu_logado)) {
+            echo ("error_user");
+            exit;
+        }
+            $sql = "
+            UPDATE
+                web_blog
+            SET
+                primeiroacesso  = 'N',
+                bloqueado       = 'S',
+                status          = 'N',
+                usuarioalt      = '$usu_logado',
+                dataalt         = NOW()
+            WHERE
+                REGISTRO        = $registro
+            ";
+            
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+            
+        echo ("success");
+    }
 
     if($acao=="produtos_exportar_csv"){
         if(empty($usu_logado)) {
@@ -94,12 +217,14 @@
             echo ($csv);
     }
 
-
     if($acao=="folheto_cadastro"){
         if(empty($descr) || empty($data_exibicao) || empty($data_expiracao) || empty($url)){
             echo ("error_no_data");
             exit;
-        } 
+        } else if(empty($usu_logado)) {
+            echo ("error_user");
+            exit;
+        }
         
             $sql = "
             INSERT INTO web_folhetooferta(
@@ -181,7 +306,10 @@
     }
 
     if($acao == 'folheto_alterar'){
-        if(empty($usu_logado)) {
+        if(empty($descr) || empty($url) || empty($data_exibicao) || empty($data_expiracao)){
+            echo ("error_no_data");
+            exit;
+        } else if(empty($usu_logado)) {
             echo ("error_user");
             exit;
         }
@@ -209,17 +337,22 @@
     }
 
     if($acao=="colaboradores_cadastro"){
-        if(empty($descr) || empty($data_exibicao) || empty($data_expiracao) || empty($url)){
+        if(empty($nome) || empty($apelido) || empty($ddd_cel) || empty($nro_celular) || empty($cod_emp)){
             echo ("error_no_data");
             exit;
-        } 
+        } else if(empty($usu_logado)) {
+            echo ("error_user");
+            exit;
+        }
         
             $sql = "
             INSERT INTO in_sistema_colaboradoresativos(
-                descricao,
-                url,
-                dataexibe,
-                dataexpira,
+                nome,
+                apelido,
+                ddd_cel,
+                nro_celular,
+                cod_emp,
+                ck_funcao,
                 primeiroacesso,
                 bloqueado,
                 status,
@@ -227,11 +360,13 @@
                 data
                 )
             VALUES (
-                '$descr',
-                '$url',
-                '$data_exibicao',
-                '$data_expiracao',
-                'S',
+                '$nome',
+                '$apelido',
+                '$ddd_cel',
+                '$nro_celular',
+                '$cod_emp',
+                'V',
+                'N',
                 'N',
                 'S',
                 '$usu_logado',
@@ -323,64 +458,62 @@
     }
 
     if($acao=="slider_cadastro"){
-        $file = $_FILES["arquivo"]; 
-        if(empty($descr) || empty($data_exibicao) || empty($data_expiracao) || empty($file)){
+        $file           = $_FILES["arquivo"]; 
+        $file_mobile    = $_FILES["arquivo_mobile"];
+        $accept         = ['image/jpeg', 'image/png', 'image/webp'];
+        $ext            = strtolower($_FILES['arquivo']['type']);
+        $ext_mobile     = strtolower($_FILES['arquivo_mobile']['type']);
+        $caminho        = $_SERVER['DOCUMENT_ROOT'] . "/img_base/slider";
+        if(empty($descr) || empty($data_exibicao) || empty($data_expiracao) || empty($file) || empty($file_mobile)){
             echo ("error_no_data");
             exit;
-        } else if(empty($usu_logado)) {
-            echo ("error_user");
-            exit;
         }
-            $accept = ['image/jpeg', 'image/png', 'image/webp'];
-            $ext = strtolower($_FILES['arquivo']['type']);
-                if (in_array($ext, $accept)) {
-                    if ($_FILES["arquivo"]["size"] < 1000000){
+        if(empty($usu_logado)) {
+            echo ("error_user"); exit;
+        }
+        if ((!in_array($ext, $accept)) || (!in_array($ext_mobile, $accept))) {
+            echo ('error_format'); exit;
+        }
+        if (($_FILES["arquivo"]["size"] > 1000000) || $_FILES["arquivo_mobile"]["size"] > 1000000){
+            echo ('error_size'); exit;
+        }
+        if (!move_uploaded_file($file["tmp_name"], "$caminho/".date('dmYHis').'_'.$file["name"]) || !move_uploaded_file($file_mobile["tmp_name"], "$caminho/".date('dmYHis').'_'.$file_mobile["name"])) { 
+            echo "error"; exit;
+        }
 
-                        $caminho = $_SERVER['DOCUMENT_ROOT'] . "/img_base/slider";
+        $sql = "
+        INSERT INTO web_slideshow(
+            descricao,
+            urlarq,
+            urlarq_mobile,
+            url,
+            dataexibe,
+            dataexpira,
+            primeiroacesso,
+            bloqueado,
+            status,
+            usuario,
+            data
+            )
 
-                        if (move_uploaded_file($file["tmp_name"], "$caminho/".date('dmYHis').'_'.$file["name"])) { 
+        VALUES (
+            '$descr',
+            '".date('dmYHis').'_'.$file["name"]."',
+            '".date('dmYHis').'_'.$file_mobile["name"]."',
+            '$url',
+            '$data_exibicao',
+            '$data_expiracao',
+            'S',
+            'N',
+            'S',
+            '$usu_logado',
+            NOW()
+        )";
 
-                            $sql = "
-                            INSERT INTO web_slideshow(
-                                descricao,
-                                urlarq,
-                                url,
-                                dataexibe,
-                                dataexpira,
-                                primeiroacesso,
-                                bloqueado,
-                                status,
-                                usuario,
-                                data
-                                )
-
-                            VALUES (
-                                '$descr',
-                                '".date('dmYHis').'_'.$file["name"]."',
-                                '$url',
-                                '$data_exibicao',
-                                '$data_expiracao',
-                                'S',
-                                'N',
-                                'S',
-                                '$usu_logado',
-                                NOW()
-                            )";
-
-                                $stmt = $pdo->prepare($sql);
-                                $stmt->execute();
-
-                                echo "success"; 
-                        } 
-                        else { 
-                            echo "error"; 
-                        }  
-                    } else {
-                        echo ('error_size');
-                    }
-                } else {
-                    echo ('error_format');
-            }
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+            
+            echo "success"; 
     }
 
     if($acao == 'slider_confirmar'){
@@ -665,6 +798,14 @@
             echo ("Preencha todos os campos!");
             exit;
         }
+
+        if((!filter_var($contato_cliente, FILTER_VALIDATE_EMAIL) && (!verifica_celular($contato_cliente)))){
+            echo "Contato Inválido!";   
+            exit; 
+        }
+
+        $contato_cliente = strtolower($contato_cliente);
+        
             $sql = "
             INSERT INTO web_contatocliente(
                 contatocliente,
@@ -737,7 +878,9 @@
         if(empty($oferta_registro) || empty($nome) || empty($descr) || empty($stars)){
             echo ("error_no_data");
             exit;
-        } else if(empty($usu_logado)) {
+        }
+        
+        if(empty($usu_logado)) {
             echo ("error_user");
             exit;
         }
@@ -817,6 +960,10 @@
         $pais                           = $_POST["pais"];
         $place_name                     = $_POST["place_name"];
         $pagina                         = $_POST["pagina"];
+        $resolucao                      = $_POST["resolucao"];
+        $osname                         = $_POST["osname"];
+        $browser                        = $_POST["browser"];
+        $mobile                        = $_POST["mobile"];
 
         if(empty($localizacao)){
             exit;
@@ -830,6 +977,10 @@
                 estado,
                 pais,
                 pagina,
+                resolucao,
+                osname,
+                browser,
+                mobile,
                 data,
                 hora,
                 diasemana
@@ -842,6 +993,10 @@
                 '$estado',
                 '$pais',
                 '$pagina',
+                '$resolucao',
+                '$osname',
+                '$browser',
+                '$mobile',
                 current_date(),
                 current_time(),
                 '$agora_dia'

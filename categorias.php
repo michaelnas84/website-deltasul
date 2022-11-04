@@ -182,7 +182,7 @@
     </div>
   </main>
 
-  <script src="js/categorias.js"></script>
+  <script src="js/categorias.js<?= '?'.bin2hex(random_bytes(50))?>"></script>
 
   <!-- END - Main -->
   <?php include('includes/sections/section_footer.php'); ?>
