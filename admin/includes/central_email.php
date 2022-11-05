@@ -52,14 +52,14 @@
                 $mail->CharSet = 'UTF-8'; 
                 $mail->isSMTP();  
                 $mail->Host         = 'smtp.office365.com';
-                $mail->Port         = 587; 
+                $mail->Port         = ; 
                 $mail->SMTPSecure   = PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->SMTPAuth     = true;  
 
-                $mail->Username     = 'naoresponda@deltasulutilidades.onmicrosoft.com';
-                $mail->Password     = 'nEwWnCYp8R';
+                $mail->Username     = '';
+                $mail->Password     = '';
 
-                $mail->SetFrom('naoresponda@deltasulutilidades.onmicrosoft.com', 'Website Deltasul'); 
+                $mail->SetFrom('', 'Website Deltasul'); 
                 $mail->addAddress($email_contato_deltasul, $assunto);
                 $mail->Subject = $assunto;
                 $mail->isHTML(true); 
